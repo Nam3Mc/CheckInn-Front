@@ -18,9 +18,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className=" ">
-      <body className="bg-white ">
+      <body className="h-full  bg-powerBackground">
         <NavBar />
-        <div className="pt-16 bg-white ">{children}</div>
+        <div className="pt-16  h-full ">{children}</div>
+        {/* FOOTER */}
       </body>
     </html>
   );

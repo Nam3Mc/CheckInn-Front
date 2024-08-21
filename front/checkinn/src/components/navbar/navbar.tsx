@@ -30,7 +30,7 @@ export const NavBar: React.FC = () => {
             </Link>
           </div>
           <div>
-            <ul className="flex space-x-6">
+            <ul className="flex space-x-6  text-lavenderBlush">
               <li>
                 <Link href="/route1">
                   <span>route1</span>

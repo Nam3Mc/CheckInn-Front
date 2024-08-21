@@ -16,6 +16,9 @@ const config: Config = {
       },
       colors: {
         white: "#FFFFFF",
+        powerBackground: "#EBD3F8",
+        powerPurple: "#7A1CAC",
+        powerGray: "#666666",
         lavenderBlush: "#F9E7F3", // Tono claro de fondo
         thistle: "#D8BFD8", // Tono suave para elementos secundarios
         orchid: "#DA70D6", // Tono principal
