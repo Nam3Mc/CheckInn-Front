@@ -7,7 +7,6 @@ const CategoriesFather = () => {
       {arrayCategories1.map((cat) => (
         <div className="w-full h-full" key={Math.random()}>
           <CategoriesItem categorieData={cat}></CategoriesItem>
-          {/*   <CategoriesItem></CategoriesItem> */}
         </div>
       ))}
     </div>

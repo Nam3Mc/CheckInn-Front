@@ -1,12 +1,7 @@
-import FilteredFather from "@/components/filteredComponents/filteredFather";
 import React from "react";
 
 const page = () => {
-  return (
-    <div className="h-screen">
-      <FilteredFather></FilteredFather>
-    </div>
-  );
+  return <div>route2</div>;
 };
 
 export default page;

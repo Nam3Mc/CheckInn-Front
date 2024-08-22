@@ -32,23 +32,23 @@ export const NavBar: React.FC = () => {
           <div>
             <ul className="flex space-x-6  text-lavenderBlush">
               <li>
-                <Link href="/route1">
-                  <span>route1</span>
+                <Link href="/rooms">
+                  <span>rooms</span>
                 </Link>
-              </li>
+              </li>{" "}
               <li>
                 <Link href="/route2">
                   <span>route2</span>
                 </Link>
-              </li>
+              </li>{" "}
               <li>
                 <Link href="/route3">
-                  <span className="font-plus-jakarta-sans">route3</span>
+                  <span>route3</span>
                 </Link>
               </li>
               <li>
-                <Link href="/route4">
-                  <span>route4</span>
+                <Link href="/aboutUs">
+                  <span>about</span>
                 </Link>
               </li>
             </ul>

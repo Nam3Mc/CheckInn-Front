@@ -33,4 +33,5 @@ export interface IDataVIP {
 export interface ICategorieData {
   name: string;
   description: string;
+  img: string;
 }
