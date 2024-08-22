@@ -29,3 +29,8 @@ export interface IDataVIP {
   imgVIP: IimgVIP;
   descriptionVIP: IDescriptionVIP;
 }
+
+export interface ICategorieData {
+  name: string;
+  description: string;
+}
