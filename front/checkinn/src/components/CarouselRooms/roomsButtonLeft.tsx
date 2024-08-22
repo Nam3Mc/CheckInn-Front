@@ -1,11 +1,13 @@
 import React from "react";
-
+import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 const RoomsButtonLeft = () => {
   return (
     <div
-      className="bg-powerBackground h-16 w-16 rounded-full 
+      className=" h-16 w-16 rounded-full 
     "
-    ></div>
+    >
+      <ArrowBackIosNewRoundedIcon className="size-auto text-powerBackground"></ArrowBackIosNewRoundedIcon>
+    </div>
   );
 };
 

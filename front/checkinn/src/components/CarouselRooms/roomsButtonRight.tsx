@@ -1,11 +1,13 @@
 import React from "react";
-
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 const RoomsButtonRight = () => {
   return (
     <div
-      className="bg-powerBackground h-16 w-16 rounded-full 
+      className=" h-16 w-16 rounded-full 
     "
-    ></div>
+    >
+      <ArrowForwardIosRoundedIcon className="size-auto text-powerBackground"></ArrowForwardIosRoundedIcon>
+    </div>
   );
 };
 
