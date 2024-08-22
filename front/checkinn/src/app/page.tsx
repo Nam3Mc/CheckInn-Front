@@ -15,24 +15,6 @@ export default function Home() {
       <RecommendationVIPFatherReverse />
       <CategoriesFather2 />
       <CarouselRooms />
-
-      {/* 
-      
-      welcome carousel------------------------------------
-      
-      rooms carousel ---------------------------------------
-      
-      2 categories componentx2-------------------------------
-
-      componente para recomendacion de producto--------------------
-
-      componente para recomendacion de producto ESPEJADO-----------------
-
-      2 categories MORE componentx2
-
-      rooms carousel 
-
-       */}
     </div>
   );
 }

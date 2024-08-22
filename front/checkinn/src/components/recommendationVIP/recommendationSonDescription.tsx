@@ -15,7 +15,13 @@ const RecommendationSonDescription = ({
   return (
     <div className="w-full h-full bg-white rounded-2xl shadow-lg">
       RecommendationSonDescription
-      {name}
+      <p> {name}</p>
+      <p>{description}</p>
+      <p> {beds}</p>
+      <p> {baths}</p>
+      <p> {photos}</p>
+      <p> {capacity}</p>
+      <p> {price}</p>
     </div>
   );
 };
