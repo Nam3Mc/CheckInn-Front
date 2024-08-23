@@ -4,27 +4,32 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const CarouselRoomsCard = ({ dataRoom }: { dataRoom: IRoom }) => {
+const CarouselRoomsCard = ({ dataRoom }: any) => {
   const router = useRouter();
-  const { name, description, beds, baths, photos, capacity, price } = dataRoom;
+  const { id, name, description, photos, price } = dataRoom;
+
   const handlerClick = () => {
-    alert(
-      "este es el evento que va a redireccionar a la ruta dinámica [detailRoom]"
-    );
-    router.push(`/rooms/${name}`);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("room", String(id));
+      router.push(`/rooms/${id}`);
+    }
   };
+
   return (
     <div
-      className="flex-col w-[20%] h-[90%] bg-powerBackground rounded-2xl justify-center flex  p-3 cursor-pointer hover:w-[21%] "
-      onClick={() => handlerClick()}
+      className="flex-col w-[20%] h-[90%] bg-powerBackground rounded-2xl justify-center flex p-3 cursor-pointer hover:w-[21%]"
+      onClick={handlerClick}
       style={{ transition: "0.5s" }}
+      aria-label={`Room ${name}`}
     >
-      <Image
+      <img /* image */
         src={photos}
         alt={name}
         width={400}
         height={100}
         className="rounded-md"
+        /*        layout="responsive" */
+        /*        priority */
       />
       <p>
         <b>{name}</b>
