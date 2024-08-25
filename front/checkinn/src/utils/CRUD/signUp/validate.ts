@@ -6,7 +6,7 @@ export const validate = (formData: any) => {
   const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
   const phoneRegex = /^\d{10}$/;
   const nameRegex = /^[a-zA-Z\s]+$/; // Solo letras y espacios
-  const passwordConfirmationRegex = new RegExp(`^${formData.password}$`); // Debe coincidir con el password
+  /*   const passwordConfirmationRegex = new RegExp(`^${formData.password}$`); // Debe coincidir con el password */
 
   // Validación de cada campo
   if (!emailRegex.test(formData.email)) {
@@ -22,10 +22,10 @@ export const validate = (formData: any) => {
   if (!nameRegex.test(formData.name)) {
     errors.name = "El nombre solo puede contener letras y espacios";
   }
-  if (!passwordConfirmationRegex.test(formData.passwordConfirmation)) {
+  /*   if (!passwordConfirmationRegex.test(formData.passwordConfirmation)) {
     errors.passwordConfirmation =
       "La confirmación de la contraseña no coincide";
-  }
+  } */
 
   return errors;
 };

@@ -37,8 +37,8 @@ export const NavBar: React.FC = () => {
                 </Link>
               </li>{" "}
               <li>
-                <Link href="/route2">
-                  <span>route2</span>
+                <Link href="/reservations">
+                  <span>reservations</span>
                 </Link>
               </li>{" "}
               <li>

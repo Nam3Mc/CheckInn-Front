@@ -33,7 +33,7 @@ const loginUserFireBase = async (
         formData.password /* DE MOMENTO VAMOS A HACERLO SIN AUTH, despues se borra passs y se reemplaza por el uid de firebase para guardarla en la base de datos  */,
       /*    firebaseUid: userCredential.user.uid, */
     };
-    alert(loginObjet);
+    /*    alert(loginObjet); */
     const response = await axios.post(
       "http://localhost:3000/auth/login",
       loginObjet
@@ -46,11 +46,11 @@ const loginUserFireBase = async (
         name: response.data.user.name,
         email: response.data.user.email,
         phone: response.data.user.phone,
-        accountId: response.data.accountId,
-        accounts: {
-          id: response.data.user.accounts
+        accountId:
+          response.data.user.accounts[0]
             .id /* ERA ESTA DATA PERO DE MOMENTO GUARDE USER */,
-          photo: response.data.user.accounts.photo,
+        accounts: {
+          photo: response.data.user.accounts[0].photo,
         },
         /*    name: formData.name,
       password: formData.password,

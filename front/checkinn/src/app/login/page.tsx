@@ -63,7 +63,7 @@ const LoginComponent: React.FC = (): React.ReactNode => {
   //EVENT HANDLER ENVIO FORMULARIO
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    alert(formData.value);
+    /*     alert(formData.value); */
     setIsLoading(true);
     loginUserFireBase(
       formData,

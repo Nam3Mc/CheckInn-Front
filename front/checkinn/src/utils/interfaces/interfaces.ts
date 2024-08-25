@@ -51,3 +51,12 @@ export interface ICategorieData {
   description: string;
   img: string;
 }
+
+export interface ITeamMember {
+  id: number;
+  name: string;
+  role: string;
+  img: string;
+  GitHub: string;
+  LinkedIn: string;
+}

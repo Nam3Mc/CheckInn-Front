@@ -17,19 +17,19 @@ const CarouselRoomsCard = ({ dataRoom }: any) => {
 
   return (
     <div
-      className="flex-col w-[20%] h-[90%] bg-powerBackground rounded-2xl justify-center flex p-3 cursor-pointer hover:w-[21%]"
+      className="flex-col w-[20%] h-[90%] bg-powerBackground rounded-2xl justify-center flex p-3 cursor-pointer transform transition-transform hover:scale-105"
       onClick={handlerClick}
       style={{ transition: "0.5s" }}
       aria-label={`Room ${name}`}
     >
-      <img /* image */
+      <Image
         src={photos}
         alt={name}
         width={400}
-        height={100}
+        height={300}
         className="rounded-md"
-        /*        layout="responsive" */
-        /*        priority */
+        layout="responsive"
+        priority
       />
       <p>
         <b>{name}</b>
