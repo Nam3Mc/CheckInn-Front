@@ -19,7 +19,7 @@ export const team = [
 
   {
     id: 3,
-    name: "3",
+    name: "Patricio Alejandro Treacey",
     role: "Desarrollador Backend",
     /*  img: "/team/1.jpg", */
     /*  GitHub: "https://github.com/1", */
@@ -28,7 +28,7 @@ export const team = [
 
   {
     id: 4,
-    name: "4",
+    name: "lucas Matias Pielvitori ",
     role: "Desarrollador Backend",
     /*  img: "/team/1.jpg", */
     /*  GitHub: "https://github.com/1", */

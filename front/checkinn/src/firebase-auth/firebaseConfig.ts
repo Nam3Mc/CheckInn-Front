@@ -5,7 +5,7 @@ import { getAnalytics } from "firebase/analytics";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyCbar_FhB70_XsMbEJ_DBjp_ZjbuHNXUD4",
   authDomain: "checkinn-b5d1b.firebaseapp.com",
@@ -15,6 +15,7 @@ const firebaseConfig = {
   appId: "1:117413340518:web:55052163679e05bbb694a7",
   measurementId: "G-DM9TESWV55",
 };
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

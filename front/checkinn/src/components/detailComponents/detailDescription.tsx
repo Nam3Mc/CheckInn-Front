@@ -51,7 +51,7 @@ const DetailDescription = ({ dataDescription }: { dataDescription: IRoom }) => {
       Swal.fire({
         icon: "error",
         title: "Oops",
-        text: "Debes estar logueado para realizar una reserva.",
+        text: "You must logged in to book a reservation",
         confirmButtonText: "Aceptar",
       });
       router.push("/login");

@@ -26,7 +26,7 @@ const CarouselRooms = () => {
   }, []);
 
   return (
-    <div className="mt-5  w-full h-[45%] bg-powerGray rounded-2xl justify-center items-center flex gap-5">
+    <div className="mt-5  w-full h-[45%] bg-gray-900 rounded-2xl justify-center items-center flex gap-5">
       <RoomsButtonLeft />
       {rooms.length > 0 ? (
         rooms.map((r: any) => (

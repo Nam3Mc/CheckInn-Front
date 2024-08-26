@@ -19,7 +19,7 @@ const ErrorPage = () => {
       </p>
       <Link
         href="/"
-        className="mt-6 bg-wine text-white py-2 px-4 rounded-lg hover:bg-wine-dark transition duration-200"
+        className="mt-6 bg-wine text-green-700 font-bold py-2 px-4 rounded-lg hover:bg-wine-dark transition duration-200"
       >
         Ir al Home
       </Link>
