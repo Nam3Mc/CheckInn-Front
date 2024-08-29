@@ -22,7 +22,7 @@ const CarouselWelcome = () => {
     WebkitTextStroke: "0.5px black",
     color: "white",
   }}>
-        ChechINN
+        CheckINN
       </p>
       <button
   className="mt-4 px-4 py-2 bg-lavenderBlush text-powerPurple rounded-lg hover:bg-opacity-80 transform transition-transform hover:scale-110"

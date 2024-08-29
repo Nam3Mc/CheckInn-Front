@@ -1,7 +1,8 @@
+// app/layout.jsx
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { NavBar } from "@/components/navbar/navbar";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -18,11 +19,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className=" ">
-      <body className="h-full  bg-powerBackground">
-        <NavBar />
-        <div className="pt-16  h-full ">{children}</div>
-        {/* FOOTER */}
-      </body>
+      <UserProvider>
+        <body className="h-full bg-powerBackground">
+          <NavBar />
+          <div className="pt-16 h-full ">{children}</div>
+          {/* FOOTER */}
+        </body>
+      </UserProvider>
     </html>
   );
 }
