@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { LoginLogout } from "../loginLogout/LoginLogOut";
 
 export const NavBar: React.FC = () => {
   const pathname = usePathname();
@@ -31,14 +32,14 @@ export const NavBar: React.FC = () => {
               <li>
                 <Link href="/rooms">
                   <button className="bg-blue-800 text-lavenderBlush hover:bg-blue-600 focus:outline-none px-4 py-2 rounded">
-                    rooms
+                    Rooms
                   </button>
                 </Link>
               </li>
               <li>
                 <Link href="/reservations">
                   <button className="bg-blue-800 text-lavenderBlush hover:bg-blue-600 focus:outline-none px-4 py-2 rounded">
-                    reservations
+                    Reservations
                   </button>
                 </Link>
               </li>
@@ -52,15 +53,25 @@ export const NavBar: React.FC = () => {
               <li>
                 <Link href="/aboutUs">
                   <button className="bg-blue-800 text-lavenderBlush hover:bg-blue-600 focus:outline-none px-4 py-2 rounded">
-                    about
+                    About
                   </button>
                 </Link>
               </li>
             </ul>
-          
           </div>
           <div>
-          <div className="flex space-x-4 ml-auto">
+            <div className="flex space-x-4 ml-auto">
+              <LoginLogout />
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  );
+};
+
+
+{/* <div className="flex space-x-4 ml-auto">
               <Link href="/login">
                 <button className="bg-green-600 text-lavenderBlush hover:bg-green-400 focus:outline-none px-4 py-2 rounded">
                   Login
@@ -71,10 +82,6 @@ export const NavBar: React.FC = () => {
                   Register
                 </button>
               </Link>
+             
             </div>
-          </div>
-        </div>
-      </nav>
-    </div>
-  );
-};
+          </div> */}
