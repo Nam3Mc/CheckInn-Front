@@ -3,11 +3,9 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useUser } from '@auth0/nextjs-auth0/client';
 
 export const NavBar: React.FC = () => {
   const pathname = usePathname();
-  const { user, error, isLoading } = useUser();
   const [token, setToken] = useState(null);
 
   useEffect(() => {
@@ -59,32 +57,21 @@ export const NavBar: React.FC = () => {
                 </Link>
               </li>
             </ul>
+          
           </div>
+          <div>
           <div className="flex space-x-4 ml-auto">
-            {user ? (
-              <div className="flex items-center space-x-4">
-                <img src={user.picture} alt={user.name} className="w-10 h-10 rounded-full" />
-                <p className="text-lavenderBlush">{user.name}</p>
-                <Link href="/api/auth/logout">
-                  <button className="bg-red-600 text-lavenderBlush hover:bg-red-400 focus:outline-none px-4 py-2 rounded">
-                    Logout
-                  </button>
-                </Link>
-              </div>
-            ) : (
-              <>
-                <Link href="/api/auth/login">
-                  <button className="bg-green-600 text-lavenderBlush hover:bg-green-400 focus:outline-none px-4 py-2 rounded">
-                    Login
-                  </button>
-                </Link>
-                <Link href="/api/auth/register">
-                  <button className="bg-blue-900 text-lavenderBlush hover:bg-blue-700 focus:outline-none px-4 py-2 rounded">
-                    Register
-                  </button>
-                </Link>
-              </>
-            )}
+              <Link href="/login">
+                <button className="bg-green-600 text-lavenderBlush hover:bg-green-400 focus:outline-none px-4 py-2 rounded">
+                  Login
+                </button>
+              </Link>
+              <Link href="/register">
+                <button className="bg-blue-900 text-lavenderBlush hover:bg-blue-700 focus:outline-none px-4 py-2 rounded">
+                  Register
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
       </nav>
