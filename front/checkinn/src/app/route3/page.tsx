@@ -1,7 +1,7 @@
 import React from "react";
 
 const page = () => {
-  return <div>route3</div>;
+  return <div>my sand box</div>;
 };
 
 export default page;
