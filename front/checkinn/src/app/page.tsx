@@ -4,6 +4,7 @@ import CategoriesFather from "@/components/recommendations/categoriesFather";
 import CategoriesFather2 from "@/components/recommendations/categoriesFather2";
 import RecommendationVIPFather from "@/components/recommendationVIP/recommendationVIPFather";
 import RecommendationVIPFatherReverse from "@/components/recommendationVIP/recommendationVIPFatherReverse";
+import Chatbot from "./chatbot";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <RecommendationVIPFatherReverse />
       <CategoriesFather2 />
       <CarouselRooms />
+      <Chatbot/>
     </div>
   );
 }
