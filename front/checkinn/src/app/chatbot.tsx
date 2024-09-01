@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
+import { ContactChat } from "./contact"; // Importamos el componente ContactChat
 
 const Chatbot: React.FC = () => {
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
+  const [isContactOpen, setIsContactOpen] = useState<boolean>(false); // Estado para el modal de contacto
   const [userInput, setUserInput] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<string[]>([]);
 
@@ -26,6 +27,10 @@ const Chatbot: React.FC = () => {
     setIsChatOpen(!isChatOpen);
   };
 
+  const handleContactClick = () => {
+    setIsContactOpen(!isContactOpen); // Abre o cierra el modal de contacto
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserInput(e.target.value);
   };
@@ -33,9 +38,16 @@ const Chatbot: React.FC = () => {
   const handleUserSubmit = () => {
     const index = parseInt(userInput) - 1;
     if (index >= 0 && index < faq.length) {
-      setChatHistory([...chatHistory, `Question ${userInput}: ${faq[index]}`, `Answer: ${faqAnswers[index]}`]);
+      setChatHistory([
+        ...chatHistory,
+        `Question ${userInput}: ${faq[index]}`,
+        `Answer: ${faqAnswers[index]}`,
+      ]);
     } else {
-      setChatHistory([...chatHistory, `Question ${userInput}: I don't have an answer for that option.`]);
+      setChatHistory([
+        ...chatHistory,
+        `Question ${userInput}: I don't have an answer for that option.`,
+      ]);
     }
     setUserInput("");
   };
@@ -86,12 +98,17 @@ const Chatbot: React.FC = () => {
             </div>
           </div>
           <div className="absolute bottom-16 right-5 p-4">
-            <Link href="/contact" className="bg-green-500 text-white px-4 py-2 rounded-full shadow-lg">
+            <button
+              onClick={handleContactClick}
+              className="bg-green-500 text-white px-4 py-2 rounded-full shadow-lg"
+            >
               Contact Us!
-            </Link>
+            </button>
           </div>
         </div>
       )}
+
+      {isContactOpen && <ContactChat onClose={handleContactClick} />}
     </>
   );
 };
