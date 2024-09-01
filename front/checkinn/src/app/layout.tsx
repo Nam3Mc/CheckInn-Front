@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en" className=" ">
       <UserProvider>
-        <body className="h-full bg-powerBackground">
+        <body className="h-full bg-black">
           <NavBar />
           <div className="pt-16 h-full ">{children}</div>
           {/* FOOTER */}

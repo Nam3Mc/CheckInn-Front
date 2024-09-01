@@ -17,25 +17,26 @@ const CarouselRoomsCard = ({ dataRoom }: any) => {
 
   return (
     <div
-      className="flex-col w-[20%] h-[90%] bg-powerBackground rounded-2xl justify-center flex p-3 cursor-pointer transform transition-transform hover:scale-105"
+      className="flex flex-col w-[20%] h-[90%] bg-gray-400 rounded-2xl justify-center p-3 cursor-pointer transform transition-transform hover:scale-105"
       onClick={handlerClick}
       style={{ transition: "0.5s" }}
       aria-label={`Room ${name}`}
     >
-      <Image
-        src={photos}
-        alt={name}
-        width={400}
-        height={300}
-        className="rounded-md"
-        layout="responsive"
-        priority
-      />
-      <p>
-        <b>{name}</b>
-      </p>
-      <p className="text-powerGray">{description}</p>
-      <span>${price}</span>
+      <div className="relative w-full h-0 pb-[56.25%]"> {/* Mantiene la relación de aspecto */}
+        <Image
+          src={photos}
+          alt={name}
+          layout="fill"
+          objectFit="cover"
+          className="rounded-md"
+          priority
+        />
+      </div>
+      <div className="mt-2 text-center">
+        <p className="font-bold text-lg">{name}</p>
+        <p className="text-black">{description}</p>
+        <span className="text-xl font-semibold">${price}</span>
+      </div>
     </div>
   );
 };

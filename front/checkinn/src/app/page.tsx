@@ -8,11 +8,11 @@ import Chatbot from "./chatbot";
 
 export default function Home() {
   return (
-    <div className="bg-powerBackground w-full h-screen p-5">
+    <div className="bg-black w-full h-screen p-5">
       <CarouselWelcome />
-      <CarouselRooms />
-      <CategoriesFather />
       <RecommendationVIPFather />
+      <CategoriesFather />
+      <CarouselRooms />
       {/* <RecommendationVIPFatherReverse /> */}
       {/* <CategoriesFather2 /> */}
       {/* <CarouselRooms /> */}

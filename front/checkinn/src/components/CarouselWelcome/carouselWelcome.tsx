@@ -8,7 +8,7 @@ const CarouselWelcome = () => {
   
   return (
     <motion.div
-      className="flex flex-col w-full h-[45%] bg-blue-700 rounded-2xl justify-center items-center p-6"
+      className="flex flex-col w-full h-[45%] bg-gray-800 rounded-2xl justify-center items-center p-6"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
@@ -32,11 +32,13 @@ const CarouselWelcome = () => {
         CheckINN
       </p>
       <button
-        className="mt-4 px-4 py-2 bg-lavenderBlush text-powerPurple rounded-lg hover:bg-opacity-80 transform transition-transform hover:scale-110"
-        onClick={() => router.push("/login")}
-      >
-        Get Started
-      </button>
+  className="mt-4 px-4 py-2 bg-lavenderBlush text-powerPurple rounded-lg hover:bg-opacity-80 transform transition-transform hover:scale-110"
+  style={{ boxShadow: "0 4px 15px rgba(255, 255, 255, 0.6)" }}
+  onClick={() => router.push("/login")}
+>
+  Get Started
+</button>
+
     </motion.div>
   );
 };
