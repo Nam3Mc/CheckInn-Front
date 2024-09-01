@@ -1,11 +1,10 @@
-// components/CalendarWithBookings.tsx
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
-import styles from './CalendarWithBookings.module.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import styles from "./CalendarWithBookings.module.css";
 
 interface Booking {
   checkin: string;
@@ -16,7 +15,12 @@ interface CalendarWithBookingsProps {
   roomId: string;
 }
 
-const CalendarWithBookings: React.FC<CalendarWithBookingsProps> = ({ roomId }) => {
+// The type for the calendar's value
+type CalendarValue = Date | Date[] | null;
+
+const CalendarWithBookings: React.FC<CalendarWithBookingsProps> = ({
+  roomId,
+}) => {
   const [bookedDates, setBookedDates] = useState<Date[]>([]);
   const [selectedRange, setSelectedRange] = useState<Date[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -25,12 +29,14 @@ const CalendarWithBookings: React.FC<CalendarWithBookingsProps> = ({ roomId }) =
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/rooms/availability/${roomId}`);
-        const data: Booking[] = response.data;
+        const response = await axios.get(
+          `http://localhost:3000/room/${roomId}`
+        );
+        const data = response.data as { bookings: Booking[] }; // Adjust based on the actual structure
 
         const allBookedDates: Date[] = [];
 
-        data.forEach((range) => {
+        data.bookings.forEach((range) => {
           const checkinDate = new Date(range.checkin);
           const checkoutDate = new Date(range.checkout);
 
@@ -44,7 +50,7 @@ const CalendarWithBookings: React.FC<CalendarWithBookingsProps> = ({ roomId }) =
         setBookedDates(allBookedDates);
         setLoading(false);
       } catch (error) {
-        setError('Error al obtener los datos');
+        setError("Error al obtener los datos");
         setLoading(false);
       }
     };
@@ -53,20 +59,25 @@ const CalendarWithBookings: React.FC<CalendarWithBookingsProps> = ({ roomId }) =
   }, [roomId]);
 
   const tileClassName = ({ date }: { date: Date }) => {
-    const formattedDate = date.toISOString().split('T')[0];
-    return bookedDates.some(d => d.toISOString().split('T')[0] === formattedDate)
+    const formattedDate = date.toISOString().split("T")[0];
+    return bookedDates.some(
+      (d) => d.toISOString().split("T")[0] === formattedDate
+    )
       ? styles.booked
       : undefined;
   };
 
   const tileDisabled = ({ date }: { date: Date }) => {
-    const formattedDate = date.toISOString().split('T')[0];
-    return bookedDates.some(d => d.toISOString().split('T')[0] === formattedDate);
+    const formattedDate = date.toISOString().split("T")[0];
+    return bookedDates.some(
+      (d) => d.toISOString().split("T")[0] === formattedDate
+    );
   };
 
-  const handleDateChange = (range: Date[]) => {
-    if (range.length === 2) {
-      setSelectedRange(range);
+  // Adjusted `handleDateChange` to fit the expected type
+  const handleDateChange = (value: CalendarValue) => {
+    if (Array.isArray(value) && value.length === 2) {
+      setSelectedRange(value);
     } else {
       setSelectedRange(null);
     }
@@ -75,9 +86,9 @@ const CalendarWithBookings: React.FC<CalendarWithBookingsProps> = ({ roomId }) =
   const handleSave = () => {
     if (selectedRange && selectedRange.length === 2) {
       // Aquí puedes enviar `selectedRange` a tu backend o hacer lo que necesites con las fechas seleccionadas
-      console.log('Fechas seleccionadas para reserva:', selectedRange);
+      console.log("Fechas seleccionadas para reserva:", selectedRange);
     } else {
-      alert('Selecciona un rango de fechas válido.');
+      alert("Selecciona un rango de fechas válido.");
     }
   };
 
@@ -94,7 +105,12 @@ const CalendarWithBookings: React.FC<CalendarWithBookingsProps> = ({ roomId }) =
       <h1>Calendario de Reservas</h1>
       <Calendar
         selectRange
-        onChange={handleDateChange}
+        onChange={
+          handleDateChange as (
+            value: any,
+            event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+          ) => void
+        }
         tileClassName={tileClassName}
         tileDisabled={tileDisabled}
         // Puedes pasar otras props aquí si lo necesitas
