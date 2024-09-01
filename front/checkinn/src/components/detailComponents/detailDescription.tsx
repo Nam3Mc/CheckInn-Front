@@ -1,12 +1,13 @@
-"use client";
 import React, { useState, useEffect } from "react";
 import { IRoom } from "@/utils/interfaces/interfaces";
-import { postReservations } from "@/utils/CRUD/rooms/reservations/postReservations";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
+import useMercadoPago from "@/utils/mercadopago/mercadopago";
+import axios from "axios";
 
 const DetailDescription = ({ dataDescription }: { dataDescription: IRoom }) => {
   const router = useRouter();
+  const { createPaymentPreference } = useMercadoPago();
   const { id, name, description, beds, baths, capacity, price, status } =
     dataDescription;
 
@@ -14,11 +15,10 @@ const DetailDescription = ({ dataDescription }: { dataDescription: IRoom }) => {
   const [checkout, setCheckout] = useState("");
   const [accountId, setAccountId] = useState("");
   const [roomId, setRoomId] = useState(dataDescription.id);
-  const [nights, setNights] = useState(0);
   const [guests, setGuests] = useState(0);
-  const [message, setMessage] = useState(""); // Message for success or error
+  const [hasMinor, setHasMinor] = useState(false);
+  const [message, setMessage] = useState("");
 
-  // Load accountId from localStorage
   useEffect(() => {
     const userData = localStorage.getItem("userDataLogin");
     if (userData) {
@@ -42,7 +42,7 @@ const DetailDescription = ({ dataDescription }: { dataDescription: IRoom }) => {
       });
       router.push("/login");
     }
-  }, []);
+  }, [router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,36 +51,42 @@ const DetailDescription = ({ dataDescription }: { dataDescription: IRoom }) => {
       Swal.fire({
         icon: "error",
         title: "Oops",
-        text: "You must logged in to book a reservation",
+        text: "You must be logged in to book a reservation",
         confirmButtonText: "Aceptar",
       });
       router.push("/login");
       return;
     }
 
-    // Create the booking data object
-    const bookingData = {
-      checkin: new Date(checkin).toISOString(),
-      checkout: new Date(checkout).toISOString(),
-      accountId,
-      roomId,
-      nights: Number(nights),
-      guests: Number(guests),
-    };
-
-    console.log("Booking Data:", bookingData);
-
     try {
-      const response = await postReservations(bookingData);
-      setMessage("Reservation successful!");
-      Swal.fire({
-        icon: "success",
-        title: "Éxito",
-        text: "¡Reserva realizada con éxito!",
-        confirmButtonText: "Aceptar",
+      // Paso 1: Crear la reserva en el backend
+      const bookingResponse = await axios.post("http://localhost:3000/reservations", {
+        checkinDate: new Date(checkin).toISOString(),
+        checkoutDate: new Date(checkout).toISOString(),
+        accountId,
+        roomId,
+        guests: Number(guests),
+        hasMinor,
       });
+      console.log("Booking Response:", bookingResponse.data);
+      const { total: price, reservation } = bookingResponse.data;
+      const reservationId = reservation?.id; // Asegúrate de que este campo esté disponible
+      
+
+      if (!price || !reservationId) {
+        throw new Error("Error fetching reservation details");
+      }
+
+      // Paso 2: Crear la preferencia de pago en MercadoPago
+      const initPoint = await createPaymentPreference({
+        price: parseFloat(price),
+        id: reservationId,
+      });
+
+      // Redirigir al usuario a MercadoPago
+      router.push(initPoint);
     } catch (error) {
-      console.error("Error making reservation:", error);
+      console.error("Error creating payment preference:", error);
       setMessage("Reservation failed. Please try again.");
       Swal.fire({
         icon: "error",
@@ -90,12 +96,12 @@ const DetailDescription = ({ dataDescription }: { dataDescription: IRoom }) => {
       });
     }
   };
+
   return (
     <div className="flex flex-col w-full max-w-lg h-auto bg-white rounded-2xl shadow-lg p-6 overflow-hidden">
       <h2 className="text-3xl font-bold mb-4 text-center">{name}</h2>
 
       <p className="text-gray-600 mb-2">Description: {description}</p>
-
       <p className="text-gray-600 mb-2">Beds: {beds}</p>
       <p className="text-gray-600 mb-2">Baths: {baths}</p>
       <p className="text-gray-600 mb-2">Capacity: {capacity} guests</p>
@@ -103,16 +109,14 @@ const DetailDescription = ({ dataDescription }: { dataDescription: IRoom }) => {
       <p
         className={`text-lg font-semibold ${
           status === "available" ? "text-green-500" : "text-red-500"
-        }`}
-      >
+        }`}>
         Status: {status === "available" ? "Available" : "Not Available"}
       </p>
       <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
         <div className="flex flex-col space-y-2">
           <label
             htmlFor="checkin"
-            className="text-lg font-medium text-gray-700"
-          >
+            className="text-lg font-medium text-gray-700">
             Check-in:
           </label>
           <input
@@ -128,8 +132,7 @@ const DetailDescription = ({ dataDescription }: { dataDescription: IRoom }) => {
         <div className="flex flex-col space-y-2">
           <label
             htmlFor="checkout"
-            className="text-lg font-medium text-gray-700"
-          >
+            className="text-lg font-medium text-gray-700">
             Check-out:
           </label>
           <input
@@ -138,21 +141,6 @@ const DetailDescription = ({ dataDescription }: { dataDescription: IRoom }) => {
             value={checkout}
             onChange={(e) => setCheckout(e.target.value)}
             required
-            className="w-full p-2 border border-gray-300 rounded-md shadow-sm"
-          />
-        </div>
-
-        <div className="flex flex-col space-y-2">
-          <label htmlFor="nights" className="text-lg font-medium text-gray-700">
-            Nights:
-          </label>
-          <input
-            type="number"
-            id="nights"
-            value={nights}
-            onChange={(e) => setNights(Number(e.target.value))}
-            required
-            min={1}
             className="w-full p-2 border border-gray-300 rounded-md shadow-sm"
           />
         </div>
@@ -172,10 +160,24 @@ const DetailDescription = ({ dataDescription }: { dataDescription: IRoom }) => {
           />
         </div>
 
+        <div className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            id="hasMinor"
+            checked={hasMinor}
+            onChange={(e) => setHasMinor(e.target.checked)}
+            className="h-4 w-4 border-gray-300 rounded text-green-600 focus:ring-green-500"
+          />
+          <label
+            htmlFor="hasMinor"
+            className="text-lg font-medium text-gray-700">
+            Has Minor:
+          </label>
+        </div>
+
         <button
           type="submit"
-          className="w-full bg-green-500 text-white py-3 px-4 rounded-md shadow-lg hover:bg-green-600 transition duration-300"
-        >
+          className="w-full bg-green-500 text-white py-3 px-4 rounded-md shadow-lg hover:bg-green-600 transition duration-300">
           Make Reservation
         </button>
 
@@ -183,8 +185,7 @@ const DetailDescription = ({ dataDescription }: { dataDescription: IRoom }) => {
           <div
             className={`mt-4 p-2 text-center text-lg font-semibold ${
               message.includes("successful") ? "text-green-600" : "text-red-600"
-            }`}
-          >
+            }`}>
             {message}
           </div>
         )}
