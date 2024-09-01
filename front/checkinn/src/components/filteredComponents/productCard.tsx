@@ -71,6 +71,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ selectedOptions }) => {
         <div
           key={room.id}
           className="w-full md:w-1/3 h-auto bg-gray-700 rounded-2xl text-white p-4 mb-4 transition-transform transform hover:scale-105 flex flex-col"
+          style={{ boxShadow: " 4px 6px 6px rgba(166, 187, 255, 0.3)" }}
           onClick={() => handlerEvent(room.id)}>
           <img
             src={room.photos}

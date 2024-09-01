@@ -108,7 +108,7 @@ const RegisterComponent: React.FC = (): React.ReactNode => {
         <h1 className="pb-8 text-gray-600 text-6xl font-normal dark:text-darkMode-white ">
           Únete a{" "}
         </h1>
-        <p className="text-wine pb-8 font-Lato text-6xl">CheckINN</p>
+        <p className="text-gray-400 pb-8 font-Lato text-6xl">CheckINN</p>
       </div>
 
       <div className="rounded border border-wine">

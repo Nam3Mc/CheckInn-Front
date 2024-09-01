@@ -58,18 +58,21 @@ const Chatbot: React.FC = () => {
         className="fixed bottom-5 right-5 bg-blue-500 text-white px-4 py-2 rounded-full shadow-lg z-50"
         onClick={toggleChat}
       >
-        Chat
+        Virtual assitance
       </button>
 
       {isChatOpen && (
-        <div className="fixed top-0 right-0 w-1/3 h-full bg-gray-100 shadow-lg z-40 transition-transform duration-300">
+        <div
+        className="fixed top-0 right-0 w-200 h-full bg-gray-300 z-40 transition-transform duration-300"
+        style={{ boxShadow: "0 4px 6px rgba(255, 255, 255, 0.3)" }}
+      >
           <div className="flex justify-between items-center bg-blue-500 text-white p-4">
             <h2>Chatbot</h2>
             <button onClick={toggleChat} className="text-xl">&times;</button>
           </div>
           <div className="p-4 h-full overflow-y-auto">
             <div>
-              <p><strong>Frequently Asked Questions:</strong></p>
+              <p><strong>How can i help you ?</strong></p>
               {faq.map((question, index) => (
                 <p key={index}>{index + 1}. {question}</p>
               ))}

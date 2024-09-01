@@ -96,11 +96,11 @@ const LoginComponent: React.FC = (): React.ReactNode => {
   return (
     <div className="flex justify-center items-center  text-center pt-32 pb-32 bg-greyVivino dark:bg-darkMode-greyVivino ">
       <div className="justify-start mt-0 mr-32">
-        <h1 className="pb-8 text-gray-600 text-6xl font-normal dark:text-darkMode-white">
+        <h1 className="pb-8 text-gray-400 text-6xl font-normal dark:text-darkMode-white">
           Únete a{" "}
         </h1>
 
-        <p className="text-wine pb-8 font-Lato text-6xl">CheckINN</p>
+        <p className="text-gray-600 pb-8 font-Lato text-6xl">CheckINN</p>
       </div>
 
       <div className="rounded border bg-white border-wine  dark:bg-darkMode-grey1">

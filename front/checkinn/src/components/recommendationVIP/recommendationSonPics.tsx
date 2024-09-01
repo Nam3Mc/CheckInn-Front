@@ -15,7 +15,7 @@ export const RecommendationSonPic = ({ imgVIP }: { imgVIP: IimgVIP }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 3000); // Cambia de imagen cada 3 segundos
+    }, 5000); // Cambia de imagen cada 5 segundos
 
     return () => clearInterval(interval);
   }, [images.length]);
@@ -30,10 +30,12 @@ export const RecommendationSonPic = ({ imgVIP }: { imgVIP: IimgVIP }) => {
         className="rounded-2xl"
       />
       
-      {/* Aquí puedes agregar el texto que desees */}
-      <div className="absolute bottom-0 left-0 p-4 text-white bg-black bg-opacity-80 rounded-2xl">
-        <h2 className="text-lg font-bold">"Live a unique experience"</h2>
-        <p className="text-sm">The comfort of our rooms at your fingertips.</p>
+      {/* Texto escalado con mayor tamaño */}
+      <div
+        className="absolute bottom-0 left-0 p-6 text-white bg-black bg-opacity-80 rounded-2xl"
+      >
+        <h2 className="text-2xl font-bold">"Live a unique experience"</h2>
+        <p className="text-lg">The comfort of our rooms at your fingertips.</p>
       </div>
 
       <div className="absolute inset-0 bg-black bg-opacity-30 flex justify-between items-center p-4">
