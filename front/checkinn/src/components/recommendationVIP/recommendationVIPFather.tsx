@@ -8,10 +8,11 @@ const RecommendationVIPFather = () => {
     <div className="mt-5 w-full h-[90%] ">
       {arrayVIP1.map((vip: IDataVIP) => (
         <div className=" w-full h-full   flex gap-5  " key={Math.random()}>
+         
           <RecommendationSonPics imgVIP={vip.imgVIP}></RecommendationSonPics>
-          <RecommendationSonDescription
+          {/* <RecommendationSonDescription
             descriptionVIP={vip.descriptionVIP}
-          ></RecommendationSonDescription>
+          ></RecommendationSonDescription> */}
         </div>
       ))}
     </div>

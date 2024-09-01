@@ -26,3 +26,35 @@ body {
     text-wrap: balance;
   }
 }
+/* Animación para el deslizamiento desde la izquierda */
+@keyframes slideIn {
+  from {
+    transform: translateX(-500%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Animación para el deslizamiento desde la derecha */
+@keyframes slideInRight {
+  from {
+    transform: translateX(500%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Clases para aplicar las animaciones */
+.slide-in-left {
+  animation: slideIn 5s ease-out;
+}
+
+.slide-in-right {
+  animation: slideInRight 5s ease-out;
+}

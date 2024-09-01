@@ -29,6 +29,12 @@ export const RecommendationSonPic = ({ imgVIP }: { imgVIP: IimgVIP }) => {
         objectFit="cover"
         className="rounded-2xl"
       />
+      
+      {/* Aquí puedes agregar el texto que desees */}
+      <div className="absolute bottom-0 left-0 p-4 text-white bg-black bg-opacity-80 rounded-2xl">
+        <h2 className="text-lg font-bold">"Live a unique experience"</h2>
+        <p className="text-sm">The comfort of our rooms at your fingertips.</p>
+      </div>
 
       <div className="absolute inset-0 bg-black bg-opacity-30 flex justify-between items-center p-4">
         <button
