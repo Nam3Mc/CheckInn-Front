@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { ContactChat } from "./contact"; // Importamos el componente ContactChat
+import { ContactChat } from "./contact";
 
 const Chatbot: React.FC = () => {
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
-  const [isContactOpen, setIsContactOpen] = useState<boolean>(false); // Estado para el modal de contacto
+  const [isContactOpen, setIsContactOpen] = useState<boolean>(false);
   const [userInput, setUserInput] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<string[]>([]);
 
@@ -24,31 +24,33 @@ const Chatbot: React.FC = () => {
   ];
 
   const toggleChat = () => {
-    setIsChatOpen(!isChatOpen);
+    if (isContactOpen) {
+      setIsContactOpen(false); // Cierra el contacto si está abierto
+    }
+    setIsChatOpen(!isChatOpen); // Abre o cierra el chat
   };
 
   const handleContactClick = () => {
+    if (isChatOpen) {
+      setIsChatOpen(false); // Cierra el chatbot si está abierto
+    }
     setIsContactOpen(!isContactOpen); // Abre o cierra el modal de contacto
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserInput(e.target.value);
   };
 
   const handleUserSubmit = () => {
     const index = parseInt(userInput) - 1;
+    const newChatHistory = [...chatHistory];
     if (index >= 0 && index < faq.length) {
-      setChatHistory([
-        ...chatHistory,
+      newChatHistory.push(
         `Question ${userInput}: ${faq[index]}`,
-        `Answer: ${faqAnswers[index]}`,
-      ]);
+        `Answer: ${faqAnswers[index]}`
+      );
     } else {
-      setChatHistory([
-        ...chatHistory,
-        `Question ${userInput}: I don't have an answer for that option.`,
-      ]);
+      newChatHistory.push(
+        `Question ${userInput}: I don't have an answer for that option.`
+      );
     }
+    setChatHistory(newChatHistory);
     setUserInput("");
   };
 
@@ -58,37 +60,39 @@ const Chatbot: React.FC = () => {
         className="fixed bottom-5 right-5 bg-blue-500 text-white px-4 py-2 rounded-full shadow-lg z-50"
         onClick={toggleChat}
       >
-        Virtual assitance
+        Virtual assistance
       </button>
 
-      {isChatOpen && (
-        <div
-        className="fixed top-0 right-0 w-200 h-full bg-gray-300 z-40 transition-transform duration-300"
+      <div
+        className={`fixed top-0 right-0 w-200 h-full bg-gray-300 z-40 transition-transform duration-300 transform ${
+          isChatOpen ? "translate-x-0" : "translate-x-full"
+        }`}
         style={{ boxShadow: "0 4px 6px rgba(255, 255, 255, 0.3)" }}
       >
+        <div className="relative h-full flex flex-col">
           <div className="flex justify-between items-center bg-blue-500 text-white p-4">
             <h2>Chatbot</h2>
             <button onClick={toggleChat} className="text-xl">&times;</button>
           </div>
-          <div className="p-4 h-full overflow-y-auto">
+          <div className="flex-grow p-4 flex flex-col justify-between">
             <div>
-              <p><strong>How can i help you ?</strong></p>
+              <p><strong>How can I help you?</strong></p>
               {faq.map((question, index) => (
                 <p key={index}>{index + 1}. {question}</p>
               ))}
             </div>
 
-            <div className="mt-4">
+            <div className="mt-4 flex-grow overflow-y-auto">
               {chatHistory.map((entry, index) => (
                 <p key={index}>{entry}</p>
               ))}
             </div>
 
-            <div className="mt-4">
+            <div className="mt-4 pb-[150px]"> {/* Padding-bottom adjusted to 150px */}
               <input
                 type="text"
                 value={userInput}
-                onChange={handleInputChange}
+                onChange={(e) => setUserInput(e.target.value)}
                 className="border p-2 rounded w-full"
                 placeholder="Enter the question number"
               />
@@ -100,18 +104,16 @@ const Chatbot: React.FC = () => {
               </button>
             </div>
           </div>
-          <div className="absolute bottom-16 right-5 p-4">
-            <button
-              onClick={handleContactClick}
-              className="bg-green-500 text-white px-4 py-2 rounded-full shadow-lg"
-            >
-              Contact Us!
-            </button>
-          </div>
+          <button
+            onClick={handleContactClick}
+            className="absolute bottom-16 right-5 bg-green-500 text-white px-4 py-2 rounded-full shadow-lg"
+          >
+            Contact Us!
+          </button>
         </div>
-      )}
+      </div>
 
-      {isContactOpen && <ContactChat onClose={handleContactClick} />}
+      <ContactChat onClose={handleContactClick} isOpen={isContactOpen} />
     </>
   );
 };
