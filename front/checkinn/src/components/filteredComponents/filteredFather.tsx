@@ -10,7 +10,7 @@ const FilteredFather: React.FC = () => {
       <div className=""> {/* Contenedor para el filtro */}
         <Filter setSelectedOptions={setSelectedOptions} />
       </div>
-      <div className="w-[100%] h-full overflow-auto m-5" > {/* Contenedor para las tarjetas */}
+      <div className="w-[100%] h-full overflow-auto m-5 gap-[20px]" > {/* Contenedor para las tarjetas */}
         <ProductsList selectedOptions={selectedOptions} />
       </div>
     </div>

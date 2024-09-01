@@ -13,9 +13,9 @@ export default function Home() {
       <CarouselRooms />
       <CategoriesFather />
       <RecommendationVIPFather />
-      <RecommendationVIPFatherReverse />
-      <CategoriesFather2 />
-      <CarouselRooms />
+      {/* <RecommendationVIPFatherReverse /> */}
+      {/* <CategoriesFather2 /> */}
+      {/* <CarouselRooms /> */}
       <Chatbot/>
     </div>
   );
