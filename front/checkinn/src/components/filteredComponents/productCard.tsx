@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface Room {
   id: string;
@@ -20,20 +21,24 @@ const ProductCard: React.FC<ProductCardProps> = ({ selectedOptions }) => {
   const [filteredRooms, setFilteredRooms] = useState<Room[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get<Room[]>("http://localhost:3000/rooms/filter", {
-          params: {
-            price: selectedOptions[0] || undefined,
-            capacity: selectedOptions[1] || undefined,
-            beds: selectedOptions[2] || undefined,
-            baths: selectedOptions[3] || undefined,
-          },
-        });
+        const response = await axios.get<Room[]>(
+          "http://localhost:3000/rooms/filter",
+          {
+            params: {
+              price: selectedOptions[0] || undefined,
+              capacity: selectedOptions[1] || undefined,
+              beds: selectedOptions[2] || undefined,
+              baths: selectedOptions[3] || undefined,
+            },
+          }
+        );
 
         setFilteredRooms(response.data);
       } catch (error: any) {
@@ -51,6 +56,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ selectedOptions }) => {
     }
   }, [selectedOptions]);
 
+  const handlerEvent = (id: string) => {
+    router.push(`/rooms/${id}`);
+  };
+
   return (
     <div className="w-full h-full flex flex-wrap gap-4 p-4">
       {loading && <p className="text-white">Loading...</p>}
@@ -62,7 +71,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ selectedOptions }) => {
         <div
           key={room.id}
           className="w-full md:w-1/3 h-auto bg-gray-700 rounded-2xl text-white p-4 mb-4 transition-transform transform hover:scale-105 flex flex-col"
-        >
+          onClick={() => handlerEvent(room.id)}>
           <img
             src={room.photos}
             alt={room.name}

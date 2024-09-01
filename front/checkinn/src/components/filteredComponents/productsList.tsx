@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface ProductsListProps {
   selectedOptions: string[];
@@ -7,6 +8,7 @@ interface ProductsListProps {
 
 const ProductsList: React.FC<ProductsListProps> = ({ selectedOptions }) => {
   const [filteredRooms, setFilteredRooms] = useState<any[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,8 +42,7 @@ const ProductsList: React.FC<ProductsListProps> = ({ selectedOptions }) => {
       {filteredRooms.map((room) => (
         <div
           key={room.id}
-          className="w-[40%] h-[80%] bg-gray-700 rounded-2xl text-white flex items-center justify-center transition-transform transform hover:scale-105 p-4 mb-4"
-        >
+          className="w-[40%] h-[80%] bg-gray-700 rounded-2xl text-white flex items-center justify-center transition-transform transform hover:scale-105 p-4 mb-4">
           <div>
             <h2 className="text-xl font-bold">{room.name}</h2>
             <p>{room.description}</p>
@@ -50,7 +51,11 @@ const ProductsList: React.FC<ProductsListProps> = ({ selectedOptions }) => {
             <p>Capacity: {room.capacity}</p>
             <p>Price: ${room.price}</p>
           </div>
-          <img src={room.photos} alt={room.name} className="w-20 h-20 ml-4 rounded-lg" />
+          <img
+            src={room.photos}
+            alt={room.name}
+            className="w-20 h-20 ml-4 rounded-lg"
+          />
         </div>
       ))}
     </div>
