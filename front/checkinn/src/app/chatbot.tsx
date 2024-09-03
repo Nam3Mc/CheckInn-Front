@@ -2,8 +2,13 @@
 
 import React, { useState } from "react";
 import { ContactChat } from "./contact";
+import { SupportChat } from "./support"; // Importa el componente de soporte si es necesario
 
-const Chatbot: React.FC = () => {
+interface ChatbotProps {
+  userRole: string; // Agrega una prop para el rol del usuario
+}
+
+const Chatbot: React.FC<ChatbotProps> = ({ userRole }) => {
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
   const [isContactOpen, setIsContactOpen] = useState<boolean>(false);
   const [userInput, setUserInput] = useState<string>("");
@@ -34,7 +39,7 @@ const Chatbot: React.FC = () => {
     if (isChatOpen) {
       setIsChatOpen(false); // Cierra el chatbot si está abierto
     }
-    setIsContactOpen(!isContactOpen); // Abre o cierra el modal de contacto
+    setIsContactOpen(!isContactOpen); // Abre o cierra el modal de contacto o soporte
   };
 
   const handleUserSubmit = () => {
@@ -53,6 +58,9 @@ const Chatbot: React.FC = () => {
     setChatHistory(newChatHistory);
     setUserInput("");
   };
+
+  const buttonText = userRole === "admin" ? "Support" : "Contact Us!";
+  const chatComponent = userRole === "admin" ? SupportChat : ContactChat;
 
   return (
     <>
@@ -88,7 +96,7 @@ const Chatbot: React.FC = () => {
               ))}
             </div>
 
-            <div className="mt-4 pb-[150px]"> {/* Padding-bottom adjusted to 150px */}
+            <div className="mt-4 pb-[150px]">
               <input
                 type="text"
                 value={userInput}
@@ -108,12 +116,12 @@ const Chatbot: React.FC = () => {
             onClick={handleContactClick}
             className="absolute bottom-16 right-5 bg-green-500 text-white px-4 py-2 rounded-full shadow-lg"
           >
-            Contact Us!
+            {buttonText}
           </button>
         </div>
       </div>
 
-      <ContactChat onClose={handleContactClick} isOpen={isContactOpen} />
+      {React.createElement(chatComponent, { onClose: handleContactClick, isOpen: isContactOpen })}
     </>
   );
 };
