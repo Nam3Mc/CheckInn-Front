@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { FaUserCircle } from "react-icons/fa";
+import Dropdown from "../UserDashboard/Dropdown";
 
 export const NavBar: React.FC = () => {
   const pathname = usePathname();
@@ -67,11 +68,7 @@ export const NavBar: React.FC = () => {
           </div>
           <div className="flex space-x-2.5">
             {isAuthenticated ? (
-              <Link href="/profile">
-                {" "}
-                {/* Ruta para el perfil del usuario */}
-                <FaUserCircle className="text-lavenderBlush text-3xl cursor-pointer" />
-              </Link>
+              <Dropdown/>
             ) : (
               <>
                 <Link href="/login">
