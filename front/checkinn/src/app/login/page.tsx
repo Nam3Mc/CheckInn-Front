@@ -4,6 +4,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+
 //INTERFACES
 import { Login } from "@/utils/interfaces/interfaces";
 //UTILS
@@ -17,6 +18,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
+import Image from "next/image";
 
 const LoginComponent: React.FC = (): React.ReactNode => {
   //ESTADOS
@@ -106,8 +108,7 @@ const LoginComponent: React.FC = (): React.ReactNode => {
       <div className="rounded border bg-white border-wine  dark:bg-darkMode-grey1">
         <form
           className="justify-end w-96  bg-white p-12  dark:bg-darkMode-grey1"
-          onSubmit={handleSubmit}
-        >
+          onSubmit={handleSubmit}>
           <div className="pb-2">
             <input
               className="w-full p-3 rounded border  dark:bg-darkMode-grey1 border-gray-400 outline-none hover:border-wine hover:ring-1 hover:ring-wine focus:border-wine focus:ring-2 focus:ring-wine transition duration-200"
@@ -138,6 +139,29 @@ const LoginComponent: React.FC = (): React.ReactNode => {
               onChange={handleChange}
             />
           </div>
+          <div className="text-center">
+            <button
+              className={`inline-block cursor-pointer w-full max-w-xs p-4 rounded-lg ${
+                !(
+                  formData.email.trim() &&
+                  formData.password.trim() &&
+                  formData.phone.trim()
+                )
+                  ? "opacity-60 pointer-events-none bg-gray-300 text-gray-600"
+                  : "bg-white text-gray-500 hover:bg-green-300 hover:text-white"
+              } text-lg mt-0 transition duration-200`}
+              type="submit"
+              disabled={
+                isLoading ||
+                !(
+                  formData.email.trim() &&
+                  formData.password.trim() &&
+                  formData.phone.trim()
+                )
+              }>
+              {isLoading ? "Enviando..." : "Iniciar Sesión"}
+            </button>
+          </div>
           <div className="inline-block pb-8 pt-5  dark:text-darkMode-white">
             ¿Aún no te registraste? <br />
             <br />
@@ -147,26 +171,6 @@ const LoginComponent: React.FC = (): React.ReactNode => {
               </span>
             </Link>
             <br />
-          </div>
-          <div className="text-center">
-            <button
-              className={`inline-block cursor-pointer w-full max-w-xs p-4 rounded-lg ${
-                !(
-                  formData.email.trim() &&
-                  formData.password.trim() &&
-                  formData.phone.trim()
-                )
-                  ? "opacity-60 pointer-events-none"
-                  : ""
-              } bg-wine text-black text-lg mt-0 hover:brightness-110 transition duration-200`}
-              type="submit"
-              disabled={
-                isLoading ||
-                !(formData.email.trim() && formData.password.trim())
-              }
-            >
-              {isLoading ? "Enviando..." : "Iniciar Sesión"}
-            </button>
           </div>
           {isSuccess && (
             <p className="inline-block mt-2 rounded bg-green-500 text-white p-2">
@@ -188,15 +192,17 @@ const LoginComponent: React.FC = (): React.ReactNode => {
 
         <button
           /*          onClick={handleGoogleSignIn} */ /* DE MOMENTO LO HACEMOS SIN GOOGLE AUTH   */
-          className="rounded-3xl  mb-11 w-3/4 border-2 border-grey3 hover:border-blueGoogle font-plus-jakarta-sans"
-        >
+          className="rounded-3xl  mb-11 w-3/4 border-2 border-grey3 hover:border-blueGoogle font-plus-jakarta-sans">
           <div className="flex flex-row p-2">
-            <img
+            <Image
               className="justify-start"
               src="https://accounts.scdn.co/sso/images/new-google-icon.72fd940a229bc94cf9484a3320b3dccb.svg"
-            ></img>
+              alt="Google icon"
+              width={24} // Ajusta el ancho según sea necesario
+              height={24} // Ajusta la altura según sea necesario
+            />
             {!errorStateGoogle ? (
-              <p className="justify-center pl-5  dark:text-darkMode-white">
+              <p className="justify-center pl-5 dark:text-darkMode-white">
                 {isLoadingGoogle ? "Enviando..." : "Continuar con Google"}
               </p>
             ) : (

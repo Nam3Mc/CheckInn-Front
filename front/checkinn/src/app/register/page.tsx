@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 //HOOKS
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -19,6 +19,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
+import Image from "next/image";
 
 const RegisterComponent: React.FC = (): React.ReactNode => {
   //ESTADOS
@@ -27,7 +28,7 @@ const RegisterComponent: React.FC = (): React.ReactNode => {
     email: "",
     password: "",
     passwordConfirmation: "",
-    phone: 0,
+    phone: undefined,
   });
 
   //ojo con modularizar esta config, me dio problemas.
@@ -56,6 +57,13 @@ const RegisterComponent: React.FC = (): React.ReactNode => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [errorStateBack, setErrorBack] = useState(null);
   const [registerToken, setToken] = useState("");
+
+  useEffect(() => {
+    const user = auth.currentUser;
+    if (user) {
+      router.push("/");
+    }
+  }, [auth, router]);
 
   //EVENT HANDLER LLENADO DE INPUTS
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,8 +122,7 @@ const RegisterComponent: React.FC = (): React.ReactNode => {
       <div className="rounded border border-wine">
         <form
           className="justify-end w-96 bg-white dark:bg-darkMode-grey1 p-12"
-          onSubmit={handleSubmit}
-        >
+          onSubmit={handleSubmit}>
           <div className="pb-2">
             <input
               className="w-full p-3 rounded border border-gray-400  dark:bg-darkMode-grey1 outline-none hover:border-wine hover:ring-1 hover:ring-wine focus:border-wine  focus:ring-wine transition duration-200"
@@ -186,6 +193,23 @@ const RegisterComponent: React.FC = (): React.ReactNode => {
               <p className=" text-gray-500 max-w-full">{errors.phone}</p>
             )}
           </div>
+          <div className="text-center">
+            <button
+              className={`inline-block cursor-pointer w-full max-w-xs p-4 rounded-lg ${
+                isLoading ||
+                !(formData.email.trim() && formData.password.trim())
+                  ? "opacity-60 pointer-events-none bg-gray-300 text-gray-600"
+                  : "bg-white text-gray-500 hover:bg-blue-500 hover:text-white"
+              } text-lg mt-0 transition duration-200`}
+              type="submit"
+              disabled={
+                isLoading ||
+                !(formData.email.trim() && formData.password.trim())
+              }>
+              {isLoading ? "Enviando..." : "Registrarse"}
+            </button>
+          </div>
+
           <div className="inline-block pb-8 pt-5  dark:text-darkMode-white">
             ¿Ya estás registrado? <br />
             <br />
@@ -196,24 +220,7 @@ const RegisterComponent: React.FC = (): React.ReactNode => {
             </Link>
             <br />
           </div>
-          <div className="text-center ">
-            <button
-              /*  className={`inline-block cursor-pointer w-full max-w-xs p-4 rounded-lg ${
-                !(formData.email.trim() && formData.password.trim()) ||
-                Object.values(errors).some((error) => !!error)
-                  ? "opacity-60 pointer-events-none"
-                  : ""
-              } bg-wine text-white text-lg mt-0 hover:brightness-110 transition duration-200`} */
-              type="submit"
-              disabled={
-                isLoading /* ||
-                Object.values(formData).some((value) => !value.trim()) ||
-                Object.values(errors).some((error) => !!error) */
-              }
-            >
-              {isLoading ? "Enviando..." : "Registrarse"}
-            </button>
-          </div>
+
           {isSuccess && (
             <span className="inline-block mt-2 rounded bg-green-500 text-white p-2">
               ¡Registro exitoso!
@@ -231,13 +238,15 @@ const RegisterComponent: React.FC = (): React.ReactNode => {
           </div>
           <button
             onClick={handleGoogleSignIn}
-            className="rounded-3xl  mb-0 px-0 w-full border-2 border-grey3  hover:border-blueGoogle font-plus-jakarta-sans"
-          >
+            className="rounded-3xl  mb-0 px-0 w-full border-2 border-grey3  hover:border-blueGoogle font-plus-jakarta-sans">
             <div className="flex flex-row p-2">
-              <img
+              <Image
                 className="justify-start"
                 src="https://accounts.scdn.co/sso/images/new-google-icon.72fd940a229bc94cf9484a3320b3dccb.svg"
-              ></img>
+                alt="Google icon"
+                width={24} // Ajusta el ancho según sea necesario
+                height={24} // Ajusta la altura según sea necesario
+              />
               {!errorStateGoogle ? (
                 <p className="justify-center text-base pl-5 dark:text-darkMode-white">
                   {isLoadingGoogle ? "Enviando..." : "Continuar con Google"}

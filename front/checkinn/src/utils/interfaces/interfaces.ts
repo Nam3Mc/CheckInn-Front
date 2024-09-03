@@ -3,7 +3,7 @@ export interface Register {
   email: string;
   password: string;
   passwordConfirmation: string;
-  phone: number;
+  phone?: number;
 }
 
 export interface Login {
