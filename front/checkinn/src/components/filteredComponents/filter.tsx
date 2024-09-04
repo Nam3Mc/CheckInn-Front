@@ -1,22 +1,27 @@
+import { getRooms } from "@/utils/CRUD/rooms/getRooms";
 import React, { useState, useEffect } from "react";
+
 
 interface FilterProps {
   setSelectedOptions: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const Filter: React.FC<FilterProps> = ({ setSelectedOptions }) => {
+  const [roomsData, setRoomsData] = useState<any[]>([]); // Ajusta el tipo según la estructura de tus datos
   const [tempOptions, setTempOptions] = useState<string[]>(['', '', '', '']);
   const [capacityOptions, setCapacityOptions] = useState<string[]>([]);
   const [bedsOptions, setBedsOptions] = useState<string[]>([]);
   const [bathsOptions, setBathsOptions] = useState<string[]>([]);
 
-  const handleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>, dropdownNumber: number) => {
-    setTempOptions((prev) => {
-      const newOptions = [...prev];
-      newOptions[dropdownNumber - 1] = event.target.value;
-      return newOptions;
-    });
-  };
+  useEffect(() => {
+    const fetchRooms = async () => {
+      const data = await getRooms();
+      if (data) {
+        setRoomsData(data);
+      }
+    };
+    fetchRooms();
+  }, []);
 
   useEffect(() => {
     const price = tempOptions[0];
@@ -30,26 +35,32 @@ const Filter: React.FC<FilterProps> = ({ setSelectedOptions }) => {
   }, [tempOptions[0]]); // Re-run when price changes
 
   const getCapacityOptions = (price: string) => {
-    // Aquí puedes implementar la lógica que determine las opciones disponibles según el precio
-    if (price === "100") return ["1", "2"];
-    if (price === "120") return ["2", "3", "4"];
-    if (price === "150") return ["3","4"]
-    return ["1", "2", "3", "4"];
+    const capacities = roomsData
+      .filter(room => room.price.toString() === price)
+      .map(room => room.capacity.toString());
+    return Array.from(new Set(capacities)); // Remove duplicates
   };
 
   const getBedsOptions = (price: string) => {
-    if (price === "100") return ["1",];
-    if (price === "120") return ["1","2"];
-    if (price === "150") return ["2","3","4"]
-    return ["1", "2", "3", "4"];
+    const beds = roomsData
+      .filter(room => room.price.toString() === price)
+      .map(room => room.beds.toString());
+    return Array.from(new Set(beds)); // Remove duplicates
   };
 
   const getBathsOptions = (price: string) => {
-    if (price === "100") return ["1"];
-    if (price === "120") return ["1"];
-    if (price === "150") return ["1","2"]
+    const baths = roomsData
+      .filter(room => room.price.toString() === price)
+      .map(room => room.baths.toString());
+    return Array.from(new Set(baths)); // Remove duplicates
+  };
 
-    return ["1", "2"];
+  const handleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>, dropdownNumber: number) => {
+    setTempOptions((prev) => {
+      const newOptions = [...prev];
+      newOptions[dropdownNumber - 1] = event.target.value;
+      return newOptions;
+    });
   };
 
   const handleApplyFilters = () => {
@@ -67,9 +78,9 @@ const Filter: React.FC<FilterProps> = ({ setSelectedOptions }) => {
             value={tempOptions[0]}
           >
             <option value="">Select price range</option>
-            <option value="100">$100</option>
-            <option value="120">$120</option>
-            <option value="150">$150</option>
+            {Array.from(new Set(roomsData.map(room => room.price.toString()))).map(price => (
+              <option key={price} value={price}>${price}</option>
+            ))}
           </select>
         </div>
 
