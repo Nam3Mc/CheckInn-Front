@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface ProductsListProps {
   selectedOptions: string[];
@@ -51,10 +52,13 @@ const ProductsList: React.FC<ProductsListProps> = ({ selectedOptions }) => {
             <p>Capacity: {room.capacity}</p>
             <p>Price: ${room.price}</p>
           </div>
-          <img
+          <Image
             src={room.photos}
             alt={room.name}
-            className="w-20 h-20 ml-4 rounded-lg"
+            width={80} // w-20 es 80 píxeles
+            height={80} // h-20 es 80 píxeles
+            className="ml-4 rounded-lg"
+            layout="fixed" // Para mantener el tamaño exacto
           />
         </div>
       ))}

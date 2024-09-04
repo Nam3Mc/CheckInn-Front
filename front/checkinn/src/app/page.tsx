@@ -7,6 +7,7 @@ import RecommendationVIPFatherReverse from "@/components/recommendationVIP/recom
 import Chatbot from "./chatbot";
 
 export default function Home() {
+  const userRole = "guest";
   return (
     <div className="bg-black w-full h-screen p-5">
       <CarouselWelcome />
@@ -16,7 +17,7 @@ export default function Home() {
       {/* <RecommendationVIPFatherReverse /> */}
       {/* <CategoriesFather2 /> */}
       {/* <CarouselRooms /> */}
-      <Chatbot/>
+      <Chatbot userRole={userRole} />
     </div>
   );
 }
