@@ -3,7 +3,7 @@ import axios from "axios";
 export const postReservations = async (bookingData: any) => {
   try {
     const response = await axios.post(
-      "http://localhost:3000/reservations",
+      "http://localhost:8080/reservations",
       bookingData
     );
     if (response) console.log(response.data);

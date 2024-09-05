@@ -1,4 +1,6 @@
 "use client";
+
+import{signIn, useSession} from 'next-auth/react'
 import React, { useEffect } from "react";
 //HOOKS
 import { useState } from "react";
@@ -97,18 +99,22 @@ const RegisterComponent: React.FC = (): React.ReactNode => {
   };
 
   //EVENT HANDLER ENVIO DE FORMULARIO CON GOOGLE
-  const handleGoogleSignIn = async () => {
-    setIsLoadingGoogle(true);
-    loginUserFireBaseGoogle(
-      auth,
-      provider,
-      router,
-      setErrorGoogle,
-      setIsLoadingGoogle,
-      setIsSuccessGoogle,
-      signInWithPopup
-    );
-  };
+  // const handleGoogleSignIn = async () => {
+  //   setIsLoadingGoogle(true);
+  //   loginUserFireBaseGoogle(
+  //     auth,
+  //     provider,
+  //     router,
+  //     setErrorGoogle,
+  //     setIsLoadingGoogle,
+  //     setIsSuccessGoogle,
+  //     signInWithPopup
+  //   );
+  // };
+
+  const {data:session} = useSession();
+  console.log(session);
+  
 
   return (
     <div className="flex justify-center items-center text-center pt-32 pb-32 bg-greyVivino dark:bg-darkMode-greyVivino">
@@ -237,7 +243,7 @@ const RegisterComponent: React.FC = (): React.ReactNode => {
             <hr className="w-9/12 border-gray-400"></hr>
           </div>
           <button
-            onClick={handleGoogleSignIn}
+            onClick={()=>signIn()}
             className="rounded-3xl  mb-0 px-0 w-full border-2 border-grey3  hover:border-blueGoogle font-plus-jakarta-sans">
             <div className="flex flex-row p-2">
               <Image
