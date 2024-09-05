@@ -59,69 +59,97 @@ const Chatbot: React.FC<ChatbotProps> = ({ userRole }) => {
     setUserInput("");
   };
 
+  const handleFaqClick = (index: number) => {
+    const newChatHistory = [...chatHistory];
+    newChatHistory.push(
+      `Question ${index + 1}: ${faq[index]}`,
+      `Answer: ${faqAnswers[index]}`
+    );
+    setChatHistory(newChatHistory);
+  };
+
   const buttonText = userRole === "admin" ? "Support" : "Contact Us!";
   const chatComponent = userRole === "admin" ? SupportChat : ContactChat;
 
   return (
     <>
-      <button
-        className="fixed bottom-5 right-5 bg-blue-500 text-white px-4 py-2 rounded-full shadow-lg z-50"
-        onClick={toggleChat}
-      >
-        Virtual assistance
-      </button>
+      {!isChatOpen && !isContactOpen && (
+        <button
+          className="fixed bottom-5 right-5 bg-blue-600 text-white px-4 py-3 rounded-full shadow-lg z-50 transition-transform transform hover:scale-105 hover:bg-blue-700 focus:outline-none"
+          onClick={toggleChat}>
+          Virtual assistance
+        </button>
+      )}
 
       <div
-        className={`fixed top-0 right-0 w-200 h-full bg-gray-300 z-40 transition-transform duration-300 transform ${
-          isChatOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-        style={{ boxShadow: "0 4px 6px rgba(255, 255, 255, 0.3)" }}
-      >
-        <div className="relative h-full flex flex-col">
-          <div className="flex justify-between items-center bg-blue-500 text-white p-4">
-            <h2>Chatbot</h2>
-            <button onClick={toggleChat} className="text-xl">&times;</button>
+        className={`fixed bottom-0 right-5 w-80 max-h-[80vh] bg-white z-40 transition-transform duration-300 transform ${
+          isChatOpen ? "translate-y-0" : "translate-y-full"
+        } shadow-lg rounded-t-lg overflow-hidden flex flex-col`}>
+        <div className="relative flex-grow flex flex-col h-full">
+          <div className="flex justify-between items-center bg-blue-600 text-white p-3 rounded-t-lg shadow-md">
+            <h2 className="text-lg font-semibold">Chatbot</h2>
+            <button
+              onClick={toggleChat}
+              className="text-2xl font-bold focus:outline-none">
+              &times;
+            </button>
           </div>
-          <div className="flex-grow p-4 flex flex-col justify-between">
-            <div>
-              <p><strong>How can I help you?</strong></p>
-              {faq.map((question, index) => (
-                <p key={index}>{index + 1}. {question}</p>
-              ))}
+          <div className="flex-grow p-4 flex flex-col justify-between bg-gray-50 overflow-y-auto">
+            <div className="mb-4">
+              <p className="text-md font-medium text-gray-700">
+                How can I help you?
+              </p>
+              <ul className="mt-2 space-y-1">
+                {faq.map((question, index) => (
+                  <li
+                    key={index}
+                    className="text-sm text-gray-600 hover:text-blue-500 cursor-pointer"
+                    onClick={() => handleFaqClick(index)}>
+                    {index + 1}. {question}
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            <div className="mt-4 flex-grow overflow-y-auto">
+            <div className="flex-grow overflow-y-auto mb-4 bg-white p-3 rounded-lg shadow-inner">
               {chatHistory.map((entry, index) => (
-                <p key={index}>{entry}</p>
+                <p key={index} className="text-sm text-gray-800 my-1">
+                  {entry}
+                </p>
               ))}
             </div>
 
-            <div className="mt-4 pb-[150px]">
+            <div className="mt-2">
               <input
                 type="text"
                 value={userInput}
                 onChange={(e) => setUserInput(e.target.value)}
-                className="border p-2 rounded w-full"
+                className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                 placeholder="Enter the question number"
               />
               <button
                 onClick={handleUserSubmit}
-                className="bg-blue-500 text-white px-4 py-2 rounded mt-2 w-full"
-              >
+                className="bg-blue-600 text-white px-4 py-2 rounded mt-2 w-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
                 Send
               </button>
             </div>
           </div>
+        </div>
+
+        <div className="flex flex-col items-center pb-4">
           <button
             onClick={handleContactClick}
-            className="absolute bottom-16 right-5 bg-green-500 text-white px-4 py-2 rounded-full shadow-lg"
-          >
+            className="bg-green-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 mt-2">
             {buttonText}
           </button>
         </div>
       </div>
 
-      {React.createElement(chatComponent, { onClose: handleContactClick, isOpen: isContactOpen })}
+      {isContactOpen &&
+        React.createElement(chatComponent, {
+          onClose: handleContactClick,
+          isOpen: isContactOpen,
+        })}
     </>
   );
 };

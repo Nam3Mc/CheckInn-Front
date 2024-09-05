@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface Room {
   id: string;
@@ -57,7 +58,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ selectedOptions }) => {
   }, [selectedOptions]);
 
   const handlerEvent = (id: string) => {
-    router.push(`/rooms/${id}`);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("room", String(id));
+      router.push(`/rooms/${id}`);
+    }
   };
 
   return (

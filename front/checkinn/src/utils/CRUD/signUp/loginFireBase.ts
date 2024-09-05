@@ -64,7 +64,7 @@ const loginUserFireBase = async (
       };
       const newData = JSON.stringify(userDataLogin);
       localStorage.setItem("userDataLogin", newData);
-      router.push("/");
+      router.push("/home");
       /*     setIsSuccess(true);
     setError(null); */
       /*     setTimeout(() => {
