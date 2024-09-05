@@ -1,4 +1,5 @@
 "use client";
+import {signIn, useSession} from 'next-auth/react'
 import React from "react";
 //HOOKS
 import { useState, useEffect } from "react";
@@ -191,7 +192,7 @@ const LoginComponent: React.FC = (): React.ReactNode => {
         </div>
 
         <button
-          /*          onClick={handleGoogleSignIn} */ /* DE MOMENTO LO HACEMOS SIN GOOGLE AUTH   */
+            onClick={()=>signIn()}  /* DE MOMENTO LO HACEMOS SIN GOOGLE AUTH   */
           className="rounded-3xl  mb-11 w-3/4 border-2 border-grey3 hover:border-blueGoogle font-plus-jakarta-sans">
           <div className="flex flex-row p-2">
             <Image

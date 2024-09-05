@@ -2,7 +2,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { UserProvider } from '@auth0/nextjs-auth0/client';
+import Provider from "./Provider";
 import { NavBar } from "@/components/navbar/navbar";
 
 
@@ -20,13 +20,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className=" ">
-      <UserProvider>
+      <Provider>
         <body className="h-full bg-black">
           <NavBar />
           <div className="pt-16 h-full ">{children}</div>
           {/* FOOTER */}
         </body>
-      </UserProvider>
+
+      </Provider>
+     
     </html>
   );
 }

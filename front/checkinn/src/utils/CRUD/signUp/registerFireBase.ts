@@ -34,13 +34,11 @@ const registerUserFirebase = async (
       password: formData.password,
       passwordConfirmation: formData.passwordConfirmation,
       phone: formData.phone,
-      firebaseUid: userFirebase.uid,
-
-      provider: null,
+      
     };
     console.log(dataRegisterBack);
     const response = await axios.post(
-      "http://localhost:3000/auth/signup",
+      "http://localhost:8080/auth/signup",
       dataRegisterBack
     );
     //DATA CARGADA AL LOCALSTORAGE (token, id)
