@@ -2,6 +2,7 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import axios from 'axios';
+import { User as NextAuthUser } from 'next-auth';
 
 export const handler = NextAuth({
   providers: [
@@ -11,16 +12,23 @@ export const handler = NextAuth({
     }),
   ],
   callbacks: {
-    async signIn({ user }) {
+    async signIn({ user }: { user: NextAuthUser }) {
       // Registro en la base de datos cuando un usuario inicia sesión con Google
       try {
-        const response = await axios.post('http://localhost:8080/auth/register-google', {
+        // Registro o inicio de sesión en la base de datos según sea necesario
+        const registerResponse = await axios.post('http://localhost:8080/auth/register-google', {
           name: user.name,
           email: user.email,
         });
-        return response.status === 201; // Retorna true si el registro es exitoso
+
+        const loginResponse = await axios.post('http://localhost:8080/auth/logIn-google', {
+          email: user.email,
+        });
+
+        // Retorna true si ambos son exitosos
+        return registerResponse.status === 201 && loginResponse.status === 201;
       } catch (error) {
-        console.error('Error registering user:', error);
+        console.error('Error during Google sign-in:', error);
         return false;
       }
     },

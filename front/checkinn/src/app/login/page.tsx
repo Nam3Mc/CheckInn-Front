@@ -149,7 +149,7 @@ const LoginComponent: React.FC = (): React.ReactNode => {
                   formData.phone.trim()
                 )
                   ? "opacity-60 pointer-events-none bg-gray-300 text-gray-600"
-                  : "bg-white text-gray-500 hover:bg-green-300 hover:text-white"
+                  : "bg-green text-gray-500 hover:bg-green-300 hover:text-white"
               } text-lg mt-0 transition duration-200`}
               type="submit"
               disabled={

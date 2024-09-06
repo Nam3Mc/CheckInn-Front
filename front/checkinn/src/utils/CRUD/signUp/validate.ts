@@ -3,7 +3,7 @@ export const validate = (formData: any) => {
 
   // Expresiones regulares para validación
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
   const phoneRegex = /^\d{10}$/;
   const nameRegex = /^[a-zA-Z\s]+$/; // Solo letras y espacios
   /*   const passwordConfirmationRegex = new RegExp(`^${formData.password}$`); // Debe coincidir con el password */
@@ -14,7 +14,7 @@ export const validate = (formData: any) => {
   }
   if (!passwordRegex.test(formData.password)) {
     errors.password =
-      "La contraseña debe tener al menos 6 caracteres y contener al menos un número, una letra mayúscula y una minúscula";
+      "La contraseña debe tener al menos 8 caracteres y contener al menos un número, una letra mayúscula y una minúscula";
   }
   if (!phoneRegex.test(formData.phone)) {
     errors.phone = "Ingrese un número de teléfono válido de 10 dígitos";
