@@ -18,3 +18,4 @@ export const getRoomsByID = async (id: string) => {
     console.log("Error al obtener la habitación por ID:", error);
   }
 };
+

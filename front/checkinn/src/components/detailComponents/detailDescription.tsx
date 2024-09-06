@@ -4,11 +4,14 @@ import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import useMercadoPago from "@/utils/mercadopago/mercadopago";
 import axios from "axios";
+import CalendarWithBookings from "../calendar/CalendarWithBookings";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 
 const DetailDescription = ({ dataDescription }: { dataDescription: IRoom }) => {
   const router = useRouter();
   const { createPaymentPreference } = useMercadoPago();
-  const { id, name, description, beds, baths, capacity, price, status } =
+  const { id, name, description, beds, baths, capacity, price } =
     dataDescription;
 
   const [checkin, setCheckin] = useState("");
@@ -18,6 +21,8 @@ const DetailDescription = ({ dataDescription }: { dataDescription: IRoom }) => {
   const [guests, setGuests] = useState(0);
   const [hasMinor, setHasMinor] = useState(false);
   const [message, setMessage] = useState("");
+  const [isCalendarVisible, setIsCalendarVisible] = useState<boolean>(false); // Nuevo estado para visibilidad del calendario
+  const [status, setStatus] = useState<string>(""); // Estado para el estado de la habitación
 
   useEffect(() => {
     const userData = localStorage.getItem("userDataLogin");
@@ -44,6 +49,39 @@ const DetailDescription = ({ dataDescription }: { dataDescription: IRoom }) => {
     }
   }, [router]);
 
+  const handleDateRangeChange = async (selectedRange: Date[] | null) => {
+    if (selectedRange && selectedRange.length === 2) {
+      const checkinDate = selectedRange[0].toISOString();
+      const checkoutDate = selectedRange[1].toISOString();
+
+      setCheckin(checkinDate);
+      setCheckout(checkoutDate);
+
+      // Verificar disponibilidad de la habitación
+      try {
+        const response = await axios.get<Date[]>(
+          `http://localhost:3000/reservations/availability/${roomId}`
+        );
+        const bookedDates = response.data;
+
+        const isAvailable = !bookedDates.some(
+          (date) =>
+            date.getTime() >= new Date(selectedRange[0]).getTime() &&
+            date.getTime() <= new Date(selectedRange[1]).getTime()
+        );
+
+        setStatus(isAvailable ? "Available" : "Not Available");
+      } catch (error) {
+        console.error("Error checking availability:", error);
+        setStatus("Error");
+      }
+    } else {
+      setCheckin("");
+      setCheckout("");
+      setStatus("Available");
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -58,20 +96,31 @@ const DetailDescription = ({ dataDescription }: { dataDescription: IRoom }) => {
       return;
     }
 
+    if (status === "Not Available") {
+      Swal.fire({
+        icon: "error",
+        title: "Unavailable",
+        text: "The selected dates are not available.",
+        confirmButtonText: "Aceptar",
+      });
+      return;
+    }
     try {
       // Paso 1: Crear la reserva en el backend
-      const bookingResponse = await axios.post("http://localhost:3000/reservations", {
-        checkinDate: new Date(checkin).toISOString(),
-        checkoutDate: new Date(checkout).toISOString(),
-        accountId,
-        roomId,
-        guests: Number(guests),
-        hasMinor,
-      });
+      const bookingResponse = await axios.post(
+        "http://localhost:3000/reservations",
+        {
+          checkinDate: new Date(checkin).toISOString(),
+          checkoutDate: new Date(checkout).toISOString(),
+          accountId,
+          roomId,
+          guests: Number(guests),
+          hasMinor,
+        }
+      );
       console.log("Booking Response:", bookingResponse.data);
       const { total: price, reservation } = bookingResponse.data;
       const reservationId = reservation?.id; // Asegúrate de que este campo esté disponible
-      
 
       if (!price || !reservationId) {
         throw new Error("Error fetching reservation details");
@@ -96,6 +145,9 @@ const DetailDescription = ({ dataDescription }: { dataDescription: IRoom }) => {
       });
     }
   };
+  const toggleCalendarVisibility = () => {
+    setIsCalendarVisible(!isCalendarVisible);
+  };
 
   return (
     <div className="flex flex-col w-full max-w-lg h-auto bg-white rounded-2xl shadow-lg p-6 overflow-hidden">
@@ -106,45 +158,43 @@ const DetailDescription = ({ dataDescription }: { dataDescription: IRoom }) => {
       <p className="text-gray-600 mb-2">Baths: {baths}</p>
       <p className="text-gray-600 mb-2">Capacity: {capacity} guests</p>
       <p className="text-gray-600 mb-2">Price: ${price} per night</p>
-      <p
+
+      <button
+        type="button"
+        onClick={toggleCalendarVisibility}
+        className="w-full bg-blue-500 text-white py-2 px-4 rounded-md shadow-lg hover:bg-blue-600 transition duration-300 mb-4 flex items-center justify-center space-x-2">
+        <FontAwesomeIcon icon={faCalendarAlt} />
+        <span>{isCalendarVisible ? "Hide Calendar" : "Show Calendar"}</span>
+      </button>
+
+      {isCalendarVisible && (
+        <>
+          <CalendarWithBookings
+            roomId={roomId}
+            onDateChange={handleDateRangeChange}
+          />
+          {checkin && checkout && (
+            <div className="mt-4 p-4 bg-gray-100 border border-gray-300 rounded-md">
+              <p className="text-lg font-medium text-gray-700">
+                Selected Dates:
+              </p>
+              <p className="text-gray-600">
+                Check-in: {new Date(checkin).toLocaleDateString()}
+              </p>
+              <p className="text-gray-600">
+                Check-out: {new Date(checkout).toLocaleDateString()}
+              </p>
+            </div>
+          )}
+        </>
+      )}
+      {/* <p
         className={`text-lg font-semibold ${
-          status === "available" ? "text-green-500" : "text-red-500"
+          status === "Available" ? "text-green-500" : "text-red-500"
         }`}>
-        Status: {status === "available" ? "Available" : "Not Available"}
-      </p>
-      <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
-        <div className="flex flex-col space-y-2">
-          <label
-            htmlFor="checkin"
-            className="text-lg font-medium text-gray-700">
-            Check-in:
-          </label>
-          <input
-            type="datetime-local"
-            id="checkin"
-            value={checkin}
-            onChange={(e) => setCheckin(e.target.value)}
-            required
-            className="w-full p-2 border border-gray-300 rounded-md shadow-sm"
-          />
-        </div>
-
-        <div className="flex flex-col space-y-2">
-          <label
-            htmlFor="checkout"
-            className="text-lg font-medium text-gray-700">
-            Check-out:
-          </label>
-          <input
-            type="datetime-local"
-            id="checkout"
-            value={checkout}
-            onChange={(e) => setCheckout(e.target.value)}
-            required
-            className="w-full p-2 border border-gray-300 rounded-md shadow-sm"
-          />
-        </div>
-
+        Status: {status || "Select Dates"}
+      </p> */}
+      <form onSubmit={handleSubmit} className="flex flex-col space-y-4 mt-4">
         <div className="flex flex-col space-y-2">
           <label htmlFor="guests" className="text-lg font-medium text-gray-700">
             Guests:
