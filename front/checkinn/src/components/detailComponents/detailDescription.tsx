@@ -188,12 +188,7 @@ const DetailDescription = ({ dataDescription }: { dataDescription: IRoom }) => {
           )}
         </>
       )}
-      {/* <p
-        className={`text-lg font-semibold ${
-          status === "Available" ? "text-green-500" : "text-red-500"
-        }`}>
-        Status: {status || "Select Dates"}
-      </p> */}
+    
       <form onSubmit={handleSubmit} className="flex flex-col space-y-4 mt-4">
         <div className="flex flex-col space-y-2">
           <label htmlFor="guests" className="text-lg font-medium text-gray-700">
