@@ -9,6 +9,10 @@ const Dropdown: React.FC = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleLinkClick = () => {
+    setIsOpen(false);
+  };
+
   return (
     <div className="relative inline-block text-left">
       <button
@@ -21,7 +25,9 @@ const Dropdown: React.FC = () => {
           <ul className="py-1">
             <li>
               <Link href="/profile" passHref>
-                <div className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md transition-colors duration-200">
+                <div
+                  onClick={handleLinkClick}
+                  className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md transition-colors duration-200">
                   <FaUser className="mr-2 text-gray-600" />
                   Profile
                 </div>
@@ -29,7 +35,9 @@ const Dropdown: React.FC = () => {
             </li>
             <li>
               <Link href="/reservations" passHref>
-                <div className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md transition-colors duration-200">
+                <div
+                  onClick={handleLinkClick}
+                  className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md transition-colors duration-200">
                   <FaCalendarAlt className="mr-2 text-gray-600" />
                   Reservations
                 </div>
@@ -37,7 +45,9 @@ const Dropdown: React.FC = () => {
             </li>
             <li>
               <Link href="/logout" passHref>
-                <div className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md transition-colors duration-200">
+                <div
+                  onClick={handleLinkClick}
+                  className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md transition-colors duration-200">
                   <FaSignOutAlt className="mr-2 text-gray-600" />
                   Log out
                 </div>
