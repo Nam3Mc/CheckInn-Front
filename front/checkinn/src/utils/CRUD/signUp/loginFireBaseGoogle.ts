@@ -28,7 +28,7 @@ const loginUserFireBaseGoogle = async (
       //directamente evita el registro y me manda el token de login.
     };
     const response = await axios.post(
-      "http://localhost:3000/auth/login" /* sign up o login ? */,
+      "http://localhost:8080/auth/login" /* sign up o login ? */,
       registerObjetGoogle
     );
     //USER DATA LOGIN/REGISTER GOOGLE

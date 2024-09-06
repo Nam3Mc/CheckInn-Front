@@ -107,17 +107,15 @@ const DetailDescription = ({ dataDescription }: { dataDescription: IRoom }) => {
     }
     try {
       // Paso 1: Crear la reserva en el backend
-      const bookingResponse = await axios.post(
-        "http://localhost:3000/reservations",
-        {
-          checkinDate: new Date(checkin).toISOString(),
-          checkoutDate: new Date(checkout).toISOString(),
-          accountId,
-          roomId,
-          guests: Number(guests),
-          hasMinor,
-        }
-      );
+      const bookingResponse = await axios.post("http://localhost:8080/reservations", {
+        checkinDate: new Date(checkin).toISOString(),
+        checkoutDate: new Date(checkout).toISOString(),
+        accountId,
+        roomId,
+        guests: Number(guests),
+        hasMinor,
+      });
+
       console.log("Booking Response:", bookingResponse.data);
       const { total: price, reservation } = bookingResponse.data;
       const reservationId = reservation?.id; // Asegúrate de que este campo esté disponible
@@ -188,12 +186,7 @@ const DetailDescription = ({ dataDescription }: { dataDescription: IRoom }) => {
           )}
         </>
       )}
-      {/* <p
-        className={`text-lg font-semibold ${
-          status === "Available" ? "text-green-500" : "text-red-500"
-        }`}>
-        Status: {status || "Select Dates"}
-      </p> */}
+      
       <form onSubmit={handleSubmit} className="flex flex-col space-y-4 mt-4">
         <div className="flex flex-col space-y-2">
           <label htmlFor="guests" className="text-lg font-medium text-gray-700">

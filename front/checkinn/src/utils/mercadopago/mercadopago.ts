@@ -20,7 +20,7 @@ const useMercadoPago = () => {
       console.log("Request Body:", requestBody); // Verifica el cuerpo de la solicitud
 
       const response = await axios.post<PaymentPreferenceResponse>(
-        "http://localhost:3000/mercadopago/create",
+        "http://localhost:8080/mercadopago/create",
         requestBody,
         {
           headers: {
