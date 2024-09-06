@@ -1,16 +1,24 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { FaCalendarAlt, FaSignOutAlt, FaUser, FaUserCircle } from "react-icons/fa";
+import { signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const Dropdown: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleSignOut = async () => {
+    await signOut(); // Esperar a que se cierre la sesión
+    router.push('/'); // Redirigir al usuario después de cerrar sesión
+  };
+
   const handleLinkClick = () => {
-    setIsOpen(false);
+    setIsOpen(false); // Cerrar el dropdown al hacer clic en un enlace
   };
 
   return (
@@ -44,14 +52,12 @@ const Dropdown: React.FC = () => {
               </Link>
             </li>
             <li>
-              <Link href="/logout" passHref>
-                <div
-                  onClick={handleLinkClick}
-                  className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md transition-colors duration-200">
+              <button onClick={handleSignOut} className="w-full text-left">
+                <div className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md transition-colors duration-200">
                   <FaSignOutAlt className="mr-2 text-gray-600" />
                   Log out
                 </div>
-              </Link>
+              </button>
             </li>
           </ul>
         </div>
@@ -61,3 +67,4 @@ const Dropdown: React.FC = () => {
 };
 
 export default Dropdown;
+

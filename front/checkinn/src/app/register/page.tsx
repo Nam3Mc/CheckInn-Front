@@ -204,7 +204,7 @@ const RegisterComponent: React.FC = (): React.ReactNode => {
               className={`inline-block cursor-pointer w-full max-w-xs p-4 rounded-lg ${
                 isLoading ||
                 !(formData.email.trim() && formData.password.trim())
-                  ? "opacity-60 pointer-events-none bg-gray-300 text-gray-600"
+                  ? "opacity-60 pointer-events-none bg-gray-900 text-gray-600"
                   : "bg-white text-gray-500 hover:bg-blue-500 hover:text-white"
               } text-lg mt-0 transition duration-200`}
               type="submit"
