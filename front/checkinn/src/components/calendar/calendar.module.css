@@ -1,0 +1,56 @@
+.calendarContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 300px; /* Ajusta este tamaño para que se adapte a tu tarjeta */
+  margin: 0 auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  overflow-x: auto; /* Permite el desplazamiento horizontal si el calendario es demasiado ancho */
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 0.9em; /* Reduce el tamaño del texto en la cabecera */
+}
+
+.prevButton, .nextButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.daysContainer {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 7 días por semana */
+  gap: 2px; /* Espaciado entre los días */
+}
+
+.day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px; /* Reduce el tamaño de los días */
+  height: 24px; /* Reduce el tamaño de los días */
+  font-size: 0.8em; /* Reduce el tamaño del texto de los días */
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+/* calendar.module.css */
+.bookedDate {
+  background-color: #f56565; /* Rojo para fechas ocupadas */
+  color: white;
+}
+
+.availableDate {
+  background-color: #e2e8f0; /* Gris claro para fechas disponibles */
+}
+
