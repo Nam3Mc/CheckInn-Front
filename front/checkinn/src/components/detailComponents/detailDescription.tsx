@@ -60,7 +60,7 @@ const DetailDescription = ({ dataDescription }: { dataDescription: IRoom }) => {
       // Verificar disponibilidad de la habitación
       try {
         const response = await axios.get<Date[]>(
-          `http://localhost:3000/reservations/availability/${roomId}`
+          `http://localhost:8080/reservations/availability/${roomId}`
         );
         const bookedDates = response.data;
 
@@ -186,7 +186,7 @@ const DetailDescription = ({ dataDescription }: { dataDescription: IRoom }) => {
           )}
         </>
       )}
-      
+
       <form onSubmit={handleSubmit} className="flex flex-col space-y-4 mt-4">
         <div className="flex flex-col space-y-2">
           <label htmlFor="guests" className="text-lg font-medium text-gray-700">

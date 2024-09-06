@@ -21,7 +21,7 @@ const ProductsList: React.FC<ProductsListProps> = ({ selectedOptions }) => {
       });
 
       try {
-        const response = await axios.get("http://localhost:3000/rooms/filter", {
+        const response = await axios.get("http://localhost:8080/rooms/filter", {
           params: {
             price: selectedOptions[0],
             capacity: selectedOptions[1],
