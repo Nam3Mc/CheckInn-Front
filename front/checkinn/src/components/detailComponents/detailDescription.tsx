@@ -146,6 +146,7 @@ const DetailDescription = ({ dataDescription }: { dataDescription: IRoom }) => {
   const toggleCalendarVisibility = () => {
     setIsCalendarVisible(!isCalendarVisible);
   };
+  
 
   return (
     <div className="flex flex-col w-full max-w-lg h-auto bg-white rounded-2xl shadow-lg p-6 overflow-hidden">
