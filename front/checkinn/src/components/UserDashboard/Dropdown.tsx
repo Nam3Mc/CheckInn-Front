@@ -12,11 +12,21 @@ const Dropdown: React.FC = () => {
     setIsOpen(!isOpen);
   };
 
+  
   const handleSignOut = async () => {
-    await signOut(); // Esperar a que se cierre la sesión
-    router.push('/'); // Redirigir al usuario después de cerrar sesión
-  };
+    // Eliminar cookies o datos del localStorage
+    localStorage.removeItem('loginToken'); // Reemplaza 'nombreDeLaCookie' por el nombre de la cookie que deseas eliminar
+    localStorage.removeItem('room'); // Puedes eliminar más cookies si es necesario
+    localStorage.removeItem('userDataLogin'); 
+    localStorage.removeItem('nextauth.message')
+    localStorage.removeItem('uidFirebaseGoogleLogin')
+    localStorage.removeItem('nextauth.message')
+    // Cerrar sesión utilizando NextAuth
+    await signOut(); 
 
+    // Redirigir al usuario después de cerrar sesión
+    router.push('/');
+  };
   const handleLinkClick = () => {
     setIsOpen(false); // Cerrar el dropdown al hacer clic en un enlace
   };

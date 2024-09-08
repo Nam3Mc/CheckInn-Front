@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const loginUserFireBaseGoogle = async (
+const loginGoogle = async (
   auth: any,
   provider: any,
   router: any,
@@ -28,7 +28,7 @@ const loginUserFireBaseGoogle = async (
       //directamente evita el registro y me manda el token de login.
     };
     const response = await axios.post(
-      "http://localhost:8080/auth/register-google" /* sign up o login ? */,
+      "http://localhost:8080/auth/login-google" /* sign up o login ? */,
       registerObjetGoogle
     );
     //USER DATA LOGIN/REGISTER GOOGLE
@@ -54,4 +54,4 @@ const loginUserFireBaseGoogle = async (
   }
 };
 
-export default loginUserFireBaseGoogle;
+export default loginGoogle;
