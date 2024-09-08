@@ -2,7 +2,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Provider from "./Provider";
 import { NavBar } from "@/components/navbar/navbar";
 
 
@@ -20,14 +19,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className=" ">
-      <Provider>
         <body className="h-full bg-black">
           <NavBar />
           <div className="pt-16 h-full ">{children}</div>
           {/* FOOTER */}
         </body>
 
-      </Provider>
      
     </html>
   );

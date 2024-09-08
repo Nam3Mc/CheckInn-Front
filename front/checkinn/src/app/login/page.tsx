@@ -13,6 +13,7 @@ import loginUserFireBase from "@/utils/CRUD/signUp/loginFireBase";
 import loginUserFireBaseGoogle from "@/utils/CRUD/signUp/loginFireBaseGoogle";
 //FIREBASE
 import { initializeApp } from "firebase/app";
+import loginGoogle from '@/utils/CRUD/signUp/LoginGoogle';
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -30,21 +31,21 @@ const LoginComponent: React.FC = (): React.ReactNode => {
     phone: "" /* DE MOMENTO LO VAMOS A HACER + PHONE  */,
   });
 
-  /*   const firebaseConfig = {
+   const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
     authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
     projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
     storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
     messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
     appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-  }; */
+  }; 
 
-  /*   const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app); */
+   const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app); 
   const provider = new GoogleAuthProvider();
 
   const router = useRouter();
-
+  
   //estados locales de login convencional
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -70,7 +71,7 @@ const LoginComponent: React.FC = (): React.ReactNode => {
     setIsLoading(true);
     loginUserFireBase(
       formData,
-      /*    auth, */
+        auth, 
       signInWithEmailAndPassword,
       setIsSuccess
       /*      
@@ -83,9 +84,9 @@ const LoginComponent: React.FC = (): React.ReactNode => {
   };
 
   //EVENT HANDLER ENVIO DE FORMULARIO CON GOOGLE
-  /*   const handleGoogleSignIn = async () => {
+     const handleGoogleLogIn = async () => {
     setIsLoadingGoogle(true);
-    loginUserFireBaseGoogle(
+    loginGoogle(
       auth,
       provider,
       router,
@@ -94,7 +95,7 @@ const LoginComponent: React.FC = (): React.ReactNode => {
       setIsSuccessGoogle,
       signInWithPopup
     );
-  }; */
+  }; 
 
   return (
     <div className="flex justify-center items-center  text-center pt-32 pb-32 bg-greyVivino dark:bg-darkMode-greyVivino ">
@@ -192,7 +193,7 @@ const LoginComponent: React.FC = (): React.ReactNode => {
         </div>
 
         <button
-            onClick={()=>signIn()}  /* DE MOMENTO LO HACEMOS SIN GOOGLE AUTH   */
+            onClick={handleGoogleLogIn}  /* DE MOMENTO LO HACEMOS SIN GOOGLE AUTH   */
           className="rounded-3xl  mb-11 w-3/4 border-2 border-grey3 hover:border-blueGoogle font-plus-jakarta-sans">
           <div className="flex flex-row p-2">
             <Image
