@@ -10,18 +10,26 @@ const Profile: React.FC = () => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
+  const [userId, setUserId] = useState<string>(""); // Nuevo estado para guardar el ID del usuario
 
   // Fetch user data on component mount
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get("localhost:8080/accounts/profile"); // Endpoint to get user data
-        const userData = response.data;
+        const response = await axios.get("http://localhost:8080/accounts");
+        console.log(response.data); // Para verificar la estructura de la respuesta
 
-        setProfilePic(userData.profilePic || "/default-profile.png");
-        setName(userData.name || "");
-        setEmail(userData.email || "");
-        setPhone(userData.phone || "");
+        if (response.data.length > 0) {
+          const accountData = response.data[0]; // Obtenemos la data de la cuenta
+          const userData = accountData.user; // Obtenemos la data del usuario desde accountData
+
+          // Establecemos los valores en el estado
+          setProfilePic(accountData.photo || "");
+          setName(userData.name || "");
+          setEmail(userData.email || "");
+          setPhone(userData.phone || "");
+          setUserId(accountData.id); // Guardamos el ID de la cuenta
+        }
       } catch (error: any) {
         console.error("Error fetching user data", error.response || error.message);
       }
@@ -38,14 +46,15 @@ const Profile: React.FC = () => {
   };
 
   const handleUpload = async () => {
-    if (!selectedFile) return;
+    if (!selectedFile || !userId) return; // Verificamos que se tiene un archivo y un userId
 
     const formData = new FormData();
-    formData.append("picture", selectedFile);
+    formData.append("file", selectedFile); // Asegúrate de que el campo se llama "file", como está en el controlador
 
     setUploading(true);
     try {
-      const response = await axios.post("/localhost:8080/accounts/picture", formData, {
+      // Actualizamos la URL para incluir el ID del usuario en la ruta
+      const response = await axios.post(`http://localhost:8080/accounts/${userId}/picture`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -67,7 +76,7 @@ const Profile: React.FC = () => {
       <div className="flex items-center mb-6 space-x-4">
         <div className="flex-shrink-0">
           <img
-            src={profilePic || "/default-profile.png"}
+            src={profilePic || ""}
             alt="Profile"
             className="h-24 w-24 rounded-full border-2 border-gray-300 object-cover"
           />
